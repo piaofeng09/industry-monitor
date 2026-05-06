@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4月29日 - 行业动态日报</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+    background: #F0F2F5;
+    color: #1F2937;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 16px 16px 32px;
+  }
+
+  /* === Header === */
+  .report-header {
+    background: linear-gradient(135deg, #1E293B 0%, #334155 50%, #1E40AF 100%);
+    border-radius: 12px;
+    padding: 24px 28px;
+    color: #fff;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
+  }
+  .report-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(99,102,241,0.3) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .report-header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    position: relative;
+    z-index: 1;
+  }
+  .report-header .subtitle {
+    font-size: 13.5px;
+    opacity: 0.8;
+    position: relative;
+    z-index: 1;
+  }
+  .header-stats {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+    position: relative;
+    z-index: 1;
+    flex-wrap: wrap;
+  }
+  .stat-item {
+    background: rgba(255,255,255,0.12);
+    border-radius: 8px;
+    padding: 10px 14px;
+    backdrop-filter: blur(8px);
+    flex: 1;
+    min-width: 80px;
+  }
+  .stat-item .stat-num {
+    font-size: 22px;
+    font-weight: 800;
+    display: block;
+  }
+  .stat-item .stat-label {
+    font-size: 11px;
+    opacity: 0.7;
+    margin-top: 2px;
+  }
+
+  /* === Part 1: 精选总结（全局文字板块） === */
+  .digest-section {
+    margin-bottom: 24px;
+  }
+  .digest-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1E293B;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    border-left: 4px solid #1E40AF;
+  }
+  .digest-text {
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px 20px;
+    font-size: 14px;
+    color: #374151;
+    line-height: 1.8;
+    border: 1px solid #E5E7EB;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  /* === Part 2: 详细列表 === */
+  .detail-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1E293B;
+    margin-bottom: 12px;
+    padding-left: 10px;
+    border-left: 4px solid #6366F1;
+  }
+  .category {
+    margin-bottom: 20px;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    border: 1px solid #E5E7EB;
+    transition: box-shadow 0.2s;
+  }
+  .category:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  }
+  .cat-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: var(--cat-bg);
+    border-bottom: 2px solid var(--cat-border);
+  }
+  .cat-icon {
+    font-size: 18px;
+  }
+  .cat-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--cat-color);
+    flex: 1;
+  }
+  .cat-count {
+    font-size: 12px;
+    background: var(--cat-color);
+    color: #fff;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+
+  /* === Article Cards === */
+  .cards-grid {
+    padding: 4px;
+    display: grid;
+    gap: 4px;
+  }
+  .card, .card-compact {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #F3F4F6;
+    transition: all 0.15s ease;
+    position: relative;
+  }
+  .card:hover, .card-compact:hover {
+    background: #FAFBFC;
+    border-color: #E0E7FF;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .card-compact {
+    padding: 8px 12px;
+  }
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+  .card-title {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #111827;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 4px;
+    line-height: 1.45;
+    transition: color 0.15s;
+  }
+  .card-compact .card-title {
+    font-size: 13px;
+    margin-bottom: 3px;
+  }
+  .card-title:hover {
+    color: var(--cat-color, #4F46E5);
+  }
+  .card-summary {
+    font-size: 12px;
+    color: #6B7280;
+    line-height: 1.55;
+    margin: 0;
+  }
+  .card-compact .card-summary {
+    font-size: 11.5px;
+  }
+  .card-summary[data-lines="2"] {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .hint {
+    margin-top: 6px;
+    padding: 6px 10px;
+    background: #FFF7ED;
+    border-radius: 6px;
+    font-size: 11.5px;
+    color: #92400E;
+    border-left: 3px solid #F59E0B;
+    line-height: 1.5;
+  }
+  .source {
+    font-size: 10.5px;
+    color: #9CA3AF;
+    background: #F3F4F6;
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+
+  /* === Badges === */
+  .badge {
+    display: inline-block;
+    font-size: 10.5px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+  .badge-hot {
+    background: #FEE2E2;
+    color: #DC2626;
+  }
+  .badge-rec {
+    background: #FEF3C7;
+    color: #D97706;
+  }
+
+  /* === Footer === */
+  .report-footer {
+    text-align: center;
+    padding: 16px;
+    color: #9CA3AF;
+    font-size: 11px;
+  }
+
+  @media (max-width: 640px) {
+    .container { padding: 8px 8px 24px; }
+    .report-header { padding: 16px; border-radius: 10px; }
+    .report-header h1 { font-size: 20px; }
+    .header-stats { flex-direction: column; gap: 6px; }
+    .stat-item { padding: 8px 12px; }
+    .cards-grid { padding: 2px; }
+    .card { padding: 8px 10px; }
+    .cat-header { padding: 8px 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="report-header">
+    <h1>📰 行业动态日报</h1>
+    <p class="subtitle">4月29日 · AI 智能分类</p>
+    <div class="header-stats">
+      <div class="stat-item">
+        <span class="stat-num">19</span>
+        <span class="stat-label">相关动态</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">19</span>
+        <span class="stat-label">信息源采集</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">80</span>
+        <span class="stat-label">数据源</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">7</span>
+        <span class="stat-label">覆盖板块</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="digest-section">
+  <h2 class="digest-title">📌 精选总结</h2>
+  <div class="digest-text">物流机器人：海康机器人发布新一代AMR控制器、快仓与菜鸟达成仓储自动化合作；具身智能：三星DAM-VLA刷新机器人操控SOTA、宇树科技G1人形机器人量产交付；资本市场动态：AI Agent公司LeapMind获CMC资本领投、具身智能赛道Q1融资总额超50亿；招聘薪酬趋势：2026年机器人行业薪酬报告发布、深圳机器人工程师缺口达3万人。</div>
+</div>
+
+  <h2 class="detail-title">📋 详细列表</h2>
+<div class="category" style="--cat-color: #059669; --cat-bg: #ECFDF5; --cat-border: #A7F3D0;">
+  <div class="cat-header">
+    <span class="cat-icon">📦</span>
+    <h2 class="cat-name">📦 物流机器人</h2>
+    <span class="cat-count">8 条</span>
+  </div>
+  <div class="cards-grid">
+    <div class="card">
+  <div class="card-header">
+    <span class="badge badge-hot">🔥 重要</span>
+    <span class="source">钛媒体</span>
+  </div>
+  <a href="https://example.com/2" target="_blank" class="card-title">快仓与菜鸟达成仓储自动化合作</a>
+  <p class="card-summary" data-lines="0">快仓与菜鸟签署战略合作，将部署500+台搬运机器人</p>
+  <div class="hint">💡 HR关注：菜鸟仓储自动化人才需求大增</div>
+</div><div class="card">
+  <div class="card-header">
+    <span class="badge badge-rec">⭐ 推荐</span>
+    <span class="source">36kr</span>
+  </div>
+  <a href="https://example.com/1" target="_blank" class="card-title">海康机器人发布新一代AMR控制器</a>
+  <p class="card-summary" data-lines="0">海康机器人发布新一代AMR控制器，算力提升3倍，支持多机调度</p>
+  <div class="hint">💡 HR关注：关注其嵌入式开发团队招聘</div>
+</div><div class="card">
+  <div class="card-header">
+    <span class="badge badge-rec">⭐ 推荐</span>
+    <span class="source">量子位</span>
+  </div>
+  <a href="https://example.com/3" target="_blank" class="card-title">极智嘉海外仓储机器人出货量增长80%</a>
+  <p class="card-summary" data-lines="0">极智嘉2026年Q1海外仓储机器人出货量同比增长80%</p>
+  
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">36kr</span>
+  </div>
+  <a href="https://example.com/4" target="_blank" class="card-title">无人叉车赛道融资火热：未来机器人完成C+轮</a>
+  <p class="card-summary" data-lines="0">未来机器人完成C+轮融资2亿元，无人叉车技术持续迭代</p>
+  
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">爱范儿</span>
+  </div>
+  <a href="https://example.com/6" target="_blank" class="card-title">立镖机器人新产线投产，年产能10万台</a>
+  <p class="card-summary" data-lines="0">立镖机器人宁波新产线投产，分拣机器人年产能达10万台</p>
+  
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">雷峰网</span>
+  </div>
+  <a href="https://example.com/5" target="_blank" class="card-title">仓储AGV国家标准征求意见稿发布</a>
+  <p class="card-summary" data-lines="0">国家标准《仓储AGV安全规范》征求意见稿发布</p>
+  
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">36kr</span>
+  </div>
+  <a href="https://example.com/7" target="_blank" class="card-title">德马泰克中国区人事调整，新任CTO上任</a>
+  <p class="card-summary" data-lines="0">德马泰克中国区CTO变更，新任CTO来自西门子</p>
+  
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">GitHub</span>
+  </div>
+  <a href="https://example.com/8" target="_blank" class="card-title">物流机器人SLAM算法开源项目获千星</a>
+  <p class="card-summary" data-lines="0">开源SLAM项目在GitHub获1000+star，来自国内团队</p>
+  
+</div>
+  </div>
+</div>
+<div class="category" style="--cat-color: #6366F1; --cat-bg: #EEF2FF; --cat-border: #C7D2FE;">
+  <div class="cat-header">
+    <span class="cat-icon">🤖</span>
+    <h2 class="cat-name">🤖 具身智能</h2>
+    <span class="cat-count">6 条</span>
+  </div>
+  <div class="cards-grid">
+    <div class="card">
+  <div class="card-header">
+    <span class="badge badge-hot">🔥 重要</span>
+    <span class="source">雷峰网</span>
+  </div>
+  <a href="https://example.com/10" target="_blank" class="card-title">三星DAM-VLA刷新机器人操控SOTA</a>
+  <p class="card-summary" data-lines="0">三星研究院提出DAM-VLA模型，成功率86.8%</p>
+  <div class="hint">💡 HR关注：VLA模型人才稀缺</div>
+</div><div class="card">
+  <div class="card-header">
+    <span class="badge badge-rec">⭐ 推荐</span>
+    <span class="source">36kr</span>
+  </div>
+  <a href="https://example.com/11" target="_blank" class="card-title">宇树科技G1人形机器人量产交付</a>
+  <p class="card-summary" data-lines="0">宇树科技G1人形机器人开始量产交付首批订单</p>
+  
+</div><div class="card">
+  <div class="card-header">
+    <span class="badge badge-rec">⭐ 推荐</span>
+    <span class="source">TechCrunch</span>
+  </div>
+  <a href="https://example.com/12" target="_blank" class="card-title">Figure AI发布第三代人形机器人</a>
+  <p class="card-summary" data-lines="0">Figure AI发布第三代人形机器人，运动能力大幅提升</p>
+  
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">量子位</span>
+  </div>
+  <a href="https://example.com/13" target="_blank" class="card-title">智元机器人灵巧手突破性进展</a>
+  <p class="card-summary" data-lines="0">智元机器人灵巧手实现9自由度精细操作</p>
+  
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">arXiv</span>
+  </div>
+  <a href="https://example.com/14" target="_blank" class="card-title">斯坦福发布Mobile ALOHA 2.0</a>
+  <p class="card-summary" data-lines="0">斯坦福团队发布Mobile ALOHA 2.0，低成本遥操作方案</p>
+  
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">钛媒体</span>
+  </div>
+  <a href="https://example.com/15" target="_blank" class="card-title">傅利叶GR-2机器人进入工厂实训</a>
+  <p class="card-summary" data-lines="0">傅利叶GR-2在汽车工厂开始实际应用测试</p>
+  
+</div>
+  </div>
+</div>
+<div class="category" style="--cat-color: #DC2626; --cat-bg: #FEF2F2; --cat-border: #FECACA;">
+  <div class="cat-header">
+    <span class="cat-icon">💰</span>
+    <h2 class="cat-name">💰 资本市场动态</h2>
+    <span class="cat-count">3 条</span>
+  </div>
+  <div class="cards-grid">
+    <div class="card">
+  <div class="card-header">
+    <span class="badge badge-rec">⭐ 推荐</span>
+    <span class="source">钛媒体</span>
+  </div>
+  <a href="https://example.com/21" target="_blank" class="card-title">具身智能赛道Q1融资总额超50亿</a>
+  <p class="card-summary" data-lines="0">2026年Q1具身智能领域融资总额超50亿元</p>
+  <div class="hint">💡 HR关注：赛道热度高，人才竞争加剧</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">36kr</span>
+  </div>
+  <a href="https://example.com/20" target="_blank" class="card-title">AI Agent公司LeapMind获CMC资本领投</a>
+  <p class="card-summary" data-lines="0">前米哈游高管创立LeapMind Growth获天使+轮融资</p>
+  
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">36kr</span>
+  </div>
+  <a href="https://example.com/22" target="_blank" class="card-title">小马智行IPO后股价翻倍</a>
+  <p class="card-summary" data-lines="0">小马智行上市半年股价累计上涨超100%</p>
+  
+</div>
+  </div>
+</div>
+<div class="category" style="--cat-color: #7C3AED; --cat-bg: #F5F3FF; --cat-border: #DDD6FE;">
+  <div class="cat-header">
+    <span class="cat-icon">💼</span>
+    <h2 class="cat-name">💼 招聘薪酬趋势</h2>
+    <span class="cat-count">2 条</span>
+  </div>
+  <div class="cards-grid">
+    <div class="card">
+  <div class="card-header">
+    <span class="badge badge-hot">🔥 重要</span>
+    <span class="source">脉脉</span>
+  </div>
+  <a href="https://example.com/30" target="_blank" class="card-title">2026年机器人行业薪酬报告发布</a>
+  <p class="card-summary" data-lines="0">机器人行业平均薪酬上涨15%，AI算法岗涨幅最大</p>
+  <div class="hint">💡 HR关注：需对标行业薪酬</div>
+</div><div class="card">
+  <div class="card-header">
+    <span class="badge badge-rec">⭐ 推荐</span>
+    <span class="source">拉勾</span>
+  </div>
+  <a href="https://example.com/31" target="_blank" class="card-title">深圳机器人工程师缺口达3万人</a>
+  <p class="card-summary" data-lines="0">深圳机器人工程师岗位缺口约3万人</p>
+  
+</div>
+  </div>
+</div>
+
+  <div class="report-footer">
+    由 AI 自动采集生成 · 极智嘉招聘团队内部参考 · 4月29日
+  </div>
+
+</div>
+</body>
+</html>

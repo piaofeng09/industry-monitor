@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>V2 预览 - 行业动态日报</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+    background: #F0F2F5;
+    color: #1F2937;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container {
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 20px 16px 40px;
+  }
+
+  /* === Preview Banner === */
+  .preview-banner {
+    background: linear-gradient(135deg, #7C3AED 0%, #6366F1 50%, #3B82F6 100%);
+    color: #fff;
+    text-align: center;
+    padding: 8px 24px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .preview-banner span {
+    background: rgba(255,255,255,0.2);
+    padding: 2px 10px;
+    border-radius: 20px;
+    margin-left: 8px;
+    font-weight: 700;
+  }
+
+  /* === Header === */
+  .report-header {
+    background: linear-gradient(135deg, #0F172A 0%, #1E293B 30%, #1E40AF 70%, #6366F1 100%);
+    border-radius: 16px;
+    padding: 28px 32px 24px;
+    color: #fff;
+    margin-bottom: 28px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    position: relative;
+    overflow: hidden;
+  }
+  .report-header::before {
+    content: '';
+    position: absolute;
+    top: -60%;
+    right: -15%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(99,102,241,0.25) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .report-header::after {
+    content: '';
+    position: absolute;
+    bottom: -40%;
+    left: -10%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    position: relative;
+    z-index: 1;
+  }
+  .header-date-badge {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .header-tag {
+    background: rgba(16,185,129,0.25);
+    border: 1px solid rgba(16,185,129,0.4);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #6EE7B7;
+  }
+  .report-header h1 {
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 4px;
+    position: relative;
+    z-index: 1;
+    letter-spacing: -0.5px;
+  }
+  .report-header .subtitle {
+    font-size: 13px;
+    opacity: 0.7;
+    position: relative;
+    z-index: 1;
+  }
+  .header-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 18px;
+    position: relative;
+    z-index: 1;
+  }
+  .stat-item {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 12px 14px;
+    backdrop-filter: blur(8px);
+    transition: background 0.2s;
+  }
+  .stat-item:hover {
+    background: rgba(255,255,255,0.14);
+  }
+  .stat-item .stat-num {
+    font-size: 24px;
+    font-weight: 800;
+    display: block;
+    background: linear-gradient(135deg, #93C5FD, #C4B5FD);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-item .stat-label {
+    font-size: 11px;
+    opacity: 0.6;
+    margin-top: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* === Section Titles === */
+  .section-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #0F172A;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title .title-bar {
+    width: 4px;
+    height: 22px;
+    border-radius: 2px;
+    background: linear-gradient(180deg, #6366F1, #3B82F6);
+  }
+  .section-title.digest .title-bar {
+    background: linear-gradient(180deg, #F59E0B, #EF4444);
+  }
+
+  /* === Part 1: 精选总结（全行业总概览） === */
+  .digest-section {
+    margin-bottom: 28px;
+  }
+  .digest-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    border: 1px solid #E5E7EB;
+    padding: 18px 22px;
+    transition: all 0.25s ease;
+  }
+  .digest-card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  }
+  .digest-card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .digest-card-header .ai-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #6366F1;
+    background: #EEF2FF;
+    padding: 3px 10px;
+    border-radius: 10px;
+    letter-spacing: 0.3px;
+  }
+  .digest-card-header .digest-hint {
+    font-size: 10px;
+    color: #9CA3AF;
+    margin-left: auto;
+  }
+  .digest-summary-text {
+    font-size: 13px;
+    line-height: 1.8;
+    color: #1F2937;
+    padding: 16px 18px;
+    background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 30%, #FFF7ED 100%);
+    border-radius: 10px;
+    border: 1px solid #FDE68A;
+    border-left: 4px solid #F59E0B;
+  }
+  .digest-summary-text p {
+    margin: 0;
+  }
+  .digest-summary-text .highlight {
+    font-weight: 700;
+    color: #92400E;
+  }
+  .digest-summary-text .digest-overview {
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: #374151;
+    line-height: 1.7;
+  }
+  .digest-hot-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0;
+    counter-reset: hot-item;
+  }
+  .digest-hot-list li {
+    counter-increment: hot-item;
+    position: relative;
+    padding: 7px 0 7px 32px;
+    font-size: 13px;
+    line-height: 1.65;
+    color: #1F2937;
+    border-top: 1px dashed rgba(217,119,6,0.18);
+  }
+  .digest-hot-list li:first-child {
+    border-top: none;
+    padding-top: 4px;
+  }
+  .digest-hot-list li::before {
+    content: counter(hot-item);
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #F59E0B, #D97706);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+  .digest-hot-list li .hot-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-right: 5px;
+    vertical-align: middle;
+    line-height: 1.4;
+  }
+  .digest-hot-list li .hot-tag.tag-hot {
+    background: #FEE2E2;
+    color: #DC2626;
+    border: 1px solid #FCA5A5;
+  }
+  .digest-hot-list li .hot-tag.tag-rec {
+    background: #FEF3C7;
+    color: #B45309;
+    border: 1px solid #FCD34D;
+  }
+  .digest-hot-list li .hot-tag.tag-new {
+    background: #DBEAFE;
+    color: #1D4ED8;
+    border: 1px solid #93C5FD;
+  }
+  .digest-hot-list li .hot-cat {
+    font-size: 10px;
+    color: #92400E;
+    font-weight: 600;
+    opacity: 0.65;
+    margin-left: 6px;
+    white-space: nowrap;
+  }
+  .digest-source-note {
+    margin-top: 10px;
+    font-size: 11px;
+    color: #78716C;
+    line-height: 1.6;
+    padding-top: 8px;
+    border-top: 1px dashed rgba(217,119,6,0.2);
+  }
+
+  /* === Part 2: 详细列表 === */
+  .detail-section {
+    margin-bottom: 28px;
+  }
+  .category {
+    margin-bottom: 16px;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    border: 1px solid #E5E7EB;
+    transition: all 0.25s ease;
+  }
+  .category:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  }
+  .cat-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px;
+    background: var(--cat-bg);
+    border-bottom: 1.5px solid var(--cat-border);
+  }
+  .cat-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: var(--cat-color);
+    color: #fff;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .cat-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--cat-color);
+    flex: 1;
+  }
+  .cat-count {
+    font-size: 11px;
+    background: var(--cat-color);
+    color: #fff;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-weight: 700;
+  }
+  .cards-grid {
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  /* === Article Cards === */
+  .card, .card-compact {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #F3F4F6;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+  .card:hover, .card-compact:hover {
+    background: #FAFBFC;
+    border-color: var(--cat-border, #E0E7FF);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  }
+  .card-compact {
+    padding: 8px 12px;
+  }
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+    flex-wrap: wrap;
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #111827;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 3px;
+    line-height: 1.5;
+    transition: color 0.15s;
+  }
+  .card-title:visited { color: #6B7280; }
+  .card-title:hover {
+    color: var(--cat-color, #4F46E5);
+  }
+  .card-compact .card-title {
+    font-size: 12px;
+    margin-bottom: 2px;
+    line-height: 1.45;
+  }
+  .card-summary {
+    font-size: 12px;
+    color: #6B7280;
+    line-height: 1.6;
+    margin: 0;
+  }
+  .card-compact .card-summary {
+    font-size: 11px;
+    line-height: 1.55;
+  }
+  .card-summary.clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .hint {
+    margin-top: 6px;
+    padding: 6px 10px;
+    background: linear-gradient(135deg, #FFF7ED, #FFFBEB);
+    border-radius: 6px;
+    font-size: 11px;
+    color: #92400E;
+    border-left: 3px solid #F59E0B;
+    line-height: 1.5;
+  }
+  .hint-label {
+    font-weight: 700;
+    margin-right: 4px;
+  }
+  .source {
+    font-size: 10px;
+    color: #9CA3AF;
+    background: #F3F4F6;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+
+  /* === Financial Data Table === */
+  .fin-data-section {
+    margin: 8px 6px 4px;
+  }
+  .fin-data-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    padding: 6px 10px;
+    background: linear-gradient(135deg, #F0FDF4, #ECFDF5);
+    border: 1px solid #A7F3D0;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #059669;
+    user-select: none;
+    transition: all 0.15s;
+  }
+  .fin-data-toggle:hover {
+    background: linear-gradient(135deg, #ECFDF5, #D1FAE5);
+  }
+  .fin-data-toggle .toggle-icon {
+    transition: transform 0.2s;
+    font-size: 10px;
+  }
+  .fin-data-toggle.open .toggle-icon {
+    transform: rotate(90deg);
+  }
+  .fin-table-wrap {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  .fin-table-wrap.open {
+    max-height: 600px;
+  }
+  .fin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 4px;
+    font-size: 11px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #E5E7EB;
+  }
+  .fin-table thead th {
+    background: #F9FAFB;
+    padding: 6px 8px;
+    text-align: right;
+    font-weight: 600;
+    color: #374151;
+    border-bottom: 1px solid #E5E7EB;
+    font-size: 10px;
+    white-space: nowrap;
+  }
+  .fin-table thead th:first-child {
+    text-align: left;
+  }
+  .fin-table tbody td {
+    padding: 5px 8px;
+    border-bottom: 1px solid #F3F4F6;
+    text-align: right;
+    color: #374151;
+  }
+  .fin-table tbody td:first-child {
+    text-align: left;
+    font-weight: 600;
+    color: #111827;
+    white-space: nowrap;
+  }
+  .fin-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  .fin-table tbody tr:hover {
+    background: #F9FAFB;
+  }
+  .fin-table .positive {
+    color: #059669;
+    font-weight: 600;
+  }
+  .fin-table .negative {
+    color: #DC2626;
+    font-weight: 600;
+  }
+  .fin-table .fin-company {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .fin-table .fin-ticker {
+    font-size: 9px;
+    color: #9CA3AF;
+    font-weight: 400;
+  }
+  .fin-table .unit-row td {
+    font-size: 9px;
+    color: #9CA3AF;
+    padding: 3px 8px;
+    background: #FAFAFA;
+    font-style: italic;
+  }
+  .fin-note {
+    font-size: 10px;
+    color: #9CA3AF;
+    margin-top: 4px;
+    padding: 0 2px;
+  }
+
+  /* === Badges === */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 6px;
+    letter-spacing: 0.3px;
+  }
+  .badge-hot {
+    background: linear-gradient(135deg, #FEE2E2, #FECACA);
+    color: #DC2626;
+    border: 1px solid #FCA5A5;
+  }
+  .badge-rec {
+    background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+    color: #D97706;
+    border: 1px solid #FCD34D;
+  }
+  .badge-new {
+    background: linear-gradient(135deg, #DBEAFE, #BFDBFE);
+    color: #2563EB;
+    border: 1px solid #93C5FD;
+  }
+
+  /* === Footer === */
+  .report-footer {
+    text-align: center;
+    padding: 24px 20px;
+    color: #9CA3AF;
+    font-size: 11px;
+    border-top: 1px solid #E5E7EB;
+    margin-top: 4px;
+  }
+  .report-footer a {
+    color: #6366F1;
+    text-decoration: none;
+  }
+
+  /* === Responsive === */
+  @media (max-width: 768px) {
+    .container { padding: 10px 8px 24px; }
+    .report-header { padding: 20px 16px 18px; border-radius: 12px; }
+    .report-header h1 { font-size: 20px; }
+    .header-stats { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .stat-item { padding: 10px 12px; }
+    .stat-item .stat-num { font-size: 20px; }
+    .digest-summary-text {
+      font-size: 12px;
+      padding: 12px 14px;
+    }
+    .digest-hot-list li {
+      padding-left: 28px;
+      font-size: 12px;
+    }
+    .digest-hot-list li::before {
+      width: 20px;
+      height: 20px;
+      font-size: 10px;
+    }
+    .cards-grid { padding: 4px; }
+    .card { padding: 10px 12px; }
+    .header-top { flex-direction: column; gap: 6px; align-items: flex-start; }
+    .fin-table { font-size: 10px; }
+    .fin-table thead th, .fin-table tbody td { padding: 4px 6px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Preview Banner -->
+<div class="preview-banner">
+  V2 方案预览 &middot; 7大分类 &middot; 精选+详细 两段式日报 <span>DEMO</span>
+</div>
+
+<div class="container">
+
+  <!-- ═══ Header ═══ -->
+  <div class="report-header">
+    <div class="header-top">
+      <span class="header-date-badge">2026年4月29日 周三</span>
+      <span class="header-tag">AI 智能分类</span>
+    </div>
+    <h1>行业动态日报</h1>
+    <p class="subtitle">物流机器人 · 具身智能 · 智驾行业 · 高校科研 · 资本市场 · 人员变动 · 招聘薪酬趋势</p>
+    <div class="header-stats">
+      <div class="stat-item">
+        <span class="stat-num">56</span>
+        <span class="stat-label">相关动态</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">138</span>
+        <span class="stat-label">信息源采集</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">73</span>
+        <span class="stat-label">数据源</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">7</span>
+        <span class="stat-label">覆盖板块</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Part 1: 精选总结 ═══ -->
+  <div class="digest-section">
+    <h2 class="section-title digest">
+      <span class="title-bar"></span>
+      精选总结
+    </h2>
+    <div class="digest-card">
+      <div class="digest-card-header">
+        <span class="ai-label">✨ AI 智能总结</span>
+        <span class="digest-hint">基于当日 56 条动态自动生成 · 热度排序</span>
+      </div>
+      <div class="digest-summary-text">
+        <p class="digest-overview">今日行业最值得关注的 <strong>14 条</strong> 核心动态如下，涵盖具身智能工业落地、仓储机器人出海、自动驾驶商业化、资本热潮、关键人事变动及招聘薪酬趋势：</p>
+        <ol class="digest-hot-list">
+          <li><span class="hot-tag tag-hot">🔥 热点</span>宇树H1人形机器人在比亚迪工厂完成实训，可自主完成20+种精密装配任务，良品率达98.7%<span class="hot-cat">· 具身智能</span></li>
+          <li><span class="hot-tag tag-hot">🔥 热点</span>小马智行获准在北京亦庄全域开展L4级无人驾驶商业运营，覆盖225平方公里<span class="hot-cat">· 智驾行业</span></li>
+          <li><span class="hot-tag tag-hot">🔥 热点</span>萝卜快跑累计订单突破1000万单，无人化率提升至85%，自动驾驶进入规模化阶段<span class="hot-cat">· 智驾行业</span></li>
+          <li><span class="hot-tag tag-hot">🔥 热点</span>星动纪元完成超2亿美元C轮融资，顺丰领投，创具身智能赛道单轮最高纪录<span class="hot-cat">· 资本市场</span></li>
+          <li><span class="hot-tag tag-hot">🔥 热点</span>旷视科技原首席科学家孙剑加入智元机器人担任联席CTO，负责具身智能大模型研发<span class="hot-cat">· 人员变动</span></li>
+          <li><span class="hot-tag tag-rec">⭐ 推荐</span>海康机器人发布第五代潜伏式AGV，续航提升40%，支持5G实时调度<span class="hot-cat">· 物流机器人</span></li>
+          <li><span class="hot-tag tag-rec">⭐ 推荐</span>快仓与DHL达成欧洲仓储自动化战略合作，首批部署200台AMR，合同超5000万欧元<span class="hot-cat">· 物流机器人</span></li>
+          <li><span class="hot-tag tag-rec">⭐ 推荐</span>Figure AI发布Helix大模型，人形机器人首次实现开放词汇泛化操作<span class="hot-cat">· 具身智能</span></li>
+          <li><span class="hot-tag tag-rec">⭐ 推荐</span>工信部发布自动驾驶新规征求意见稿，首次明确L3级以上事故责任划分<span class="hot-cat">· 智驾行业</span></li>
+          <li><span class="hot-tag tag-rec">⭐ 推荐</span>原小米机器人部总经理辞任，前大疆CTO接棒，小米具身智能团队面临重组<span class="hot-cat">· 人员变动</span></li>
+          <li><span class="hot-tag tag-new">📰 关注</span>特斯拉FSD V13开始向中国用户推送，纯视觉方案首次进入中国市场<span class="hot-cat">· 智驾行业</span></li>
+          <li><span class="hot-tag tag-new">📰 关注</span>清华大学发布SpatialBot：突破机器人空间理解瓶颈，零样本泛化率达92%<span class="hot-cat">· 高校科研</span></li>
+          <li><span class="hot-tag tag-hot">🔥 热点</span>SLAM算法岗平均薪资42K同比增长18%，具身智能方向薪资增速25%领跑全行业<span class="hot-cat">· 招聘薪酬趋势</span></li>
+          <li><span class="hot-tag tag-rec">⭐ 推荐</span>仓储物流机器人岗位需求同比增长65%，深圳增速最快达82%<span class="hot-cat">· 招聘薪酬趋势</span></li>
+        </ol>
+        <p class="digest-source-note">📌 以上精选内容的原文出处详见下方各分类详细列表，均可在对应模块中查阅完整信息及来源链接。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Part 2: 详细列表 ═══ -->
+  <div class="detail-section">
+    <h2 class="section-title">
+      <span class="title-bar"></span>
+      详细列表
+    </h2>
+
+    <!-- 📦 物流机器人 详细 -->
+    <div class="category" style="--cat-color: #059669; --cat-bg: #ECFDF5; --cat-border: #A7F3D0;">
+      <div class="cat-header">
+        <div class="cat-icon">📦</div>
+        <h2 class="cat-name">物流机器人</h2>
+        <span class="cat-count">8 条</span>
+      </div>
+      <div class="cards-grid">
+        <div class="card" style="--cat-color: #059669;">
+          <div class="card-header">
+            <span class="badge badge-hot">🔥 重要</span>
+            <span class="source">海康机器人</span>
+          </div>
+          <a href="#" class="card-title">海康机器人发布新一代潜伏式AGV，续航提升40%，支持5G实时调度</a>
+          <p class="card-summary">海康机器人今日发布第五代潜伏式移动机器人Q5系列，搭载自研SLAM 3.0导航系统，续航时间提升至10小时，并首次支持5G低延迟通信。该产品面向大型仓储场景，支持多车协同编队行驶，最大承载1.5吨。</p>
+          <div class="hint"><span class="hint-label">💡 HR关注：</span>海康机器人大规模招聘SLAM算法工程师和5G通信专家，竞品技术方向升级</div>
+        </div>
+        <div class="card" style="--cat-color: #059669;">
+          <div class="card-header">
+            <span class="badge badge-rec">⭐ 推荐</span>
+            <span class="source">快仓</span>
+          </div>
+          <a href="#" class="card-title">快仓与DHL达成欧洲仓储自动化战略合作，首批部署200台AMR</a>
+          <p class="card-summary">快仓智能宣布与DHL Supply Chain签署战略合作协议，将在欧洲5个国家的物流中心部署智能仓储解决方案，首批订单200台AMR，合同金额超5000万欧元。</p>
+          <div class="hint"><span class="hint-label">💡 HR关注：</span>快仓海外业务扩张，急需海外项目交付和本地化团队人才</div>
+        </div>
+        <div class="card" style="--cat-color: #059669;">
+          <div class="card-header">
+            <span class="badge badge-rec">⭐ 推荐</span>
+            <span class="source">36氪</span>
+          </div>
+          <a href="#" class="card-title">2026 Q1全球AMR市场报告：仓储机器人渗透率突破18%，3PL成最大增长引擎</a>
+          <p class="card-summary">Interact Analysis最新报告显示，2026年Q1全球AMR市场规模达42亿美元，仓储机器人渗透率首次突破18%，第三方物流（3PL）成为最大增长引擎。</p>
+        </div>
+        <div class="card" style="--cat-color: #059669;">
+          <div class="card-header">
+            <span class="source">海柔创新</span>
+          </div>
+          <a href="#" class="card-title">海柔创新ACR系统入驻日本永旺超市，单仓部署50+箱式机器人</a>
+          <p class="card-summary">海柔创新宣布其ACR箱式仓储机器人系统成功入驻日本永旺集团旗下超市物流中心，单仓部署超过50台机器人，拣选效率提升3倍。</p>
+        </div>
+        <div class="card" style="--cat-color: #059669;">
+          <div class="card-header">
+            <span class="source">Exotec</span>
+          </div>
+          <a href="#" class="card-title">Exotec与沃尔玛续签全球合作协议，扩至北美120个配送中心</a>
+          <p class="card-summary">法国物流机器人公司Exotec宣布与沃尔玛续签全球战略合作伙伴协议，将Skypod系统扩展至北美120个配送中心。</p>
+        </div>
+        <div class="card" style="--cat-color: #059669;">
+          <div class="card-header">
+            <span class="source">极智嘉</span>
+          </div>
+          <a href="#" class="card-title">极智嘉发布新一代PopPick方案，订单履行效率提升3倍</a>
+          <p class="card-summary">极智嘉(Geek+)推出新一代PopPick货到人拣选方案，通过AI优化路径规划和多机器人协同，使订单履行效率较上一代提升3倍，已在京东、菜鸟等头部客户仓库落地。</p>
+        </div>
+        <div class="card" style="--cat-color: #059669;">
+          <div class="card-header">
+            <span class="source">德马泰克</span>
+          </div>
+          <a href="#" class="card-title">德马泰克推出多穿系统2.0，存取效率提升50%</a>
+          <p class="card-summary">全球仓储自动化巨头德马泰克发布新一代多层穿梭车系统2.0，搭载AI调度引擎，存取效率较上一代提升50%，支持每层独立控制，灵活适配不同SKU品类。</p>
+        </div>
+        <div class="card" style="--cat-color: #059669;">
+          <div class="card-header">
+            <span class="source">劢微机器人</span>
+          </div>
+          <a href="#" class="card-title">劢微机器人完成B轮融资，冷链仓储场景落地突破</a>
+          <p class="card-summary">劢微机器人宣布完成B轮融资，金额超2亿元人民币，由深创投领投。公司聚焦冷链仓储场景，其无人叉车产品已在顺丰冷链、京东冷链等场景规模化部署。</p>
+        </div>
+      </div>
+
+      <!-- 竞对公司财报数据 -->
+      <div class="fin-data-section">
+        <div class="fin-data-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+          <span class="toggle-icon">▶</span>
+          <span>📊 竞对公司公开财报数据（2025年报 / 2026Q1）</span>
+        </div>
+        <div class="fin-table-wrap">
+          <table class="fin-table">
+            <thead>
+              <tr>
+                <th>公司</th>
+                <th>营收（亿元）</th>
+                <th>同比</th>
+                <th>净利润（亿元）</th>
+                <th>同比</th>
+                <th>毛利率</th>
+                <th>机器人营收占比</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="fin-company">海康威视 <span class="fin-ticker">002415.SZ</span></div>
+                </td>
+                <td>983.6</td>
+                <td class="positive">+7.2%</td>
+                <td>142.3</td>
+                <td class="positive">+5.8%</td>
+                <td>44.7%</td>
+                <td>~18%（创新业务）</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="fin-company">大华股份 <span class="fin-ticker">002236.SZ</span></div>
+                </td>
+                <td>356.2</td>
+                <td class="positive">+3.1%</td>
+                <td>30.8</td>
+                <td class="negative">-2.4%</td>
+                <td>41.2%</td>
+                <td>~12%</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="fin-company">极智嘉 <span class="fin-ticker">未上市</span></div>
+                </td>
+                <td>~45.0</td>
+                <td class="positive">+35%</td>
+                <td>未披露</td>
+                <td>—</td>
+                <td>—</td>
+                <td>100%</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="fin-company">快仓智能 <span class="fin-ticker">未上市</span></div>
+                </td>
+                <td>~15.0</td>
+                <td class="positive">+40%</td>
+                <td>未披露</td>
+                <td>—</td>
+                <td>—</td>
+                <td>100%</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="fin-company">海柔创新 <span class="fin-ticker">未上市</span></div>
+                </td>
+                <td>~12.0</td>
+                <td class="positive">+50%</td>
+                <td>未披露</td>
+                <td>—</td>
+                <td>—</td>
+                <td>100%</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="fin-company">Exotec <span class="fin-ticker">未上市</span></div>
+                </td>
+                <td>~18.5</td>
+                <td class="positive">+60%</td>
+                <td>未披露</td>
+                <td>—</td>
+                <td>—</td>
+                <td>100%</td>
+              </tr>
+              <tr class="unit-row">
+                <td colspan="7">* 未上市公司数据为市场估算，仅供参考。营收单位：人民币。数据来源：Wind、公司公告、行业研报</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="fin-note">公开财报数据截止 2026年4月。海康/大华为2025年报数据，其余为2026Q1估算。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🤖 具身智能 详细 -->
+    <div class="category" style="--cat-color: #6366F1; --cat-bg: #EEF2FF; --cat-border: #C7D2FE;">
+      <div class="cat-header">
+        <div class="cat-icon">🤖</div>
+        <h2 class="cat-name">具身智能</h2>
+        <span class="cat-count">8 条</span>
+      </div>
+      <div class="cards-grid">
+        <div class="card" style="--cat-color: #6366F1;">
+          <div class="card-header">
+            <span class="badge badge-hot">🔥 重要</span>
+            <span class="source">宇树科技</span>
+          </div>
+          <a href="#" class="card-title">宇树科技H1人形机器人完成全尺寸工厂实训，可自主完成20+种精密装配任务</a>
+          <p class="card-summary">宇树科技宣布其H1人形机器人已在比亚迪某工厂完成为期3个月的实训，成功掌握20余种精密装配操作，包括螺丝拧紧、线束插接等工业场景任务，良品率达98.7%。</p>
+          <div class="hint"><span class="hint-label">💡 HR关注：</span>宇树大规模招聘具身智能算法和仿真工程师，人形机器人落地加速</div>
+        </div>
+        <div class="card" style="--cat-color: #6366F1;">
+          <div class="card-header">
+            <span class="badge badge-rec">⭐ 推荐</span>
+            <span class="source">Figure AI</span>
+          </div>
+          <a href="#" class="card-title">Figure AI发布Helix大模型，人形机器人首次实现开放词汇泛化操作</a>
+          <p class="card-summary">Figure AI发布了名为Helix的多模态VLA大模型，使人形机器人能够理解并执行从未训练过的操作指令，在操控基准测试中刷新SOTA。</p>
+        </div>
+        <div class="card" style="--cat-color: #6366F1;">
+          <div class="card-header">
+            <span class="badge badge-rec">⭐ 推荐</span>
+            <span class="source">智元机器人</span>
+          </div>
+          <a href="#" class="card-title">智元机器人完成B+轮融资，估值突破80亿元，加速具身智能商业化落地</a>
+          <p class="card-summary">智元机器人宣布完成B+轮融资，由红杉中国领投，估值突破80亿元。资金将用于大规模量产和场景拓展，计划2026年交付1000台人形机器人。</p>
+          <div class="hint"><span class="hint-label">💡 HR关注：</span>智元机器人急招运动控制、感知算法、产品经理等岗位</div>
+        </div>
+        <div class="card" style="--cat-color: #6366F1;">
+          <div class="card-header">
+            <span class="source">非夕科技</span>
+          </div>
+          <a href="#" class="card-title">非夕科技Rizon系列自适应机器人出货量破5000台，覆盖汽车、3C、医疗三大行业</a>
+          <p class="card-summary">非夕科技宣布其自适应机器人Rizon系列累计出货量突破5000台，在汽车零部件装配、3C精密制造、医疗器械三个行业实现规模化应用。</p>
+        </div>
+        <div class="card" style="--cat-color: #6366F1;">
+          <div class="card-header">
+            <span class="source">Sanctuary AI</span>
+          </div>
+          <a href="#" class="card-title">Sanctuary AI第七代Phoenix人形机器人实现在线学习，可通过人类演示快速习得新技能</a>
+          <p class="card-summary">加拿大公司Sanctuary AI发布第七代Phoenix人形机器人，新增在线学习能力，通过人类遥操作演示即可快速习得新操作技能，学习效率较上一代提升5倍。</p>
+        </div>
+        <div class="card" style="--cat-color: #6366F1;">
+          <div class="card-header">
+            <span class="source">银河通用</span>
+          </div>
+          <a href="#" class="card-title">银河通用机器人Galbot发布，面向零售和物流场景的通用具身智能产品</a>
+          <p class="card-summary">银河通用机器人正式发布首款产品Galbot，搭载自研多模态感知和决策系统，可自主完成超市补货、仓库拣选等任务，已与多家头部零售企业签订意向订单。</p>
+        </div>
+        <div class="card" style="--cat-color: #6366F1;">
+          <div class="card-header">
+            <span class="source">腾讯Robotics X</span>
+          </div>
+          <a href="#" class="card-title">腾讯发布EmbodiedGPT-2，多模态具身大模型刷新HouseKeep benchmark</a>
+          <p class="card-summary">腾讯Robotics X实验室发布EmbodiedGPT-2，融合视觉-语言-动作的多模态具身大模型，在HouseKeep长程家务任务基准测试中刷新SOTA，任务完成率达76%。</p>
+        </div>
+        <div class="card" style="--cat-color: #6366F1;">
+          <div class="card-header">
+            <span class="source">Agility</span>
+          </div>
+          <a href="#" class="card-title">Agility Digit人形机器人开始在亚马逊仓库进行实际商品拣选测试</a>
+          <p class="card-summary">Agility Robotics宣布其Digit人形机器人已进入亚马逊位于华盛顿州的运营中心进行实际商品拣选测试，这是全球首次人形机器人在大型电商仓库中的规模化商业试运行。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🚗 智驾行业 详细 -->
+    <div class="category" style="--cat-color: #2563EB; --cat-bg: #EFF6FF; --cat-border: #BFDBFE;">
+      <div class="cat-header">
+        <div class="cat-icon">🚗</div>
+        <h2 class="cat-name">智驾行业</h2>
+        <span class="cat-count">8 条</span>
+      </div>
+      <div class="cards-grid">
+        <div class="card" style="--cat-color: #2563EB;">
+          <div class="card-header">
+            <span class="badge badge-hot">🔥 重要</span>
+            <span class="source">小马智行</span>
+          </div>
+          <a href="#" class="card-title">小马智行获准在北京亦庄全域开展L4级无人驾驶商业运营</a>
+          <p class="card-summary">小马智行正式获得北京市高级别自动驾驶示范区工作办公室颁发的商业运营牌照，可在亦庄225平方公里范围内开展全无人商业化运营。</p>
+          <div class="hint"><span class="hint-label">💡 HR关注：</span>小马智行扩招规划控制和安全算法工程师，L4商业化加速</div>
+        </div>
+        <div class="card" style="--cat-color: #2563EB;">
+          <div class="card-header">
+            <span class="badge badge-rec">⭐ 推荐</span>
+            <span class="source">百度Apollo</span>
+          </div>
+          <a href="#" class="card-title">萝卜快跑累计订单突破1000万单，无人化率提升至85%</a>
+          <p class="card-summary">百度Apollo宣布旗下自动驾驶出行服务平台"萝卜快跑"累计订单量突破1000万单大关，其中全无人驾驶订单占比提升至85%。</p>
+        </div>
+        <div class="card" style="--cat-color: #2563EB;">
+          <div class="card-header">
+            <span class="badge badge-new">📰 资讯</span>
+            <span class="source">36氪</span>
+          </div>
+          <a href="#" class="card-title">工信部发布自动驾驶新规征求意见稿，明确L3级以上事故责任划分</a>
+          <p class="card-summary">工信部联合公安部、交通运输部发布《自动驾驶汽车安全管理条例（征求意见稿）》，首次明确L3级及以上自动驾驶事故责任划分。</p>
+        </div>
+        <div class="card" style="--cat-color: #2563EB;">
+          <div class="card-header">
+            <span class="source">文远知行</span>
+          </div>
+          <a href="#" class="card-title">文远知行无人扫路车获准在新加坡全面商业化运营</a>
+          <p class="card-summary">文远知行宣布其无人扫路车产品获得新加坡陆路交通管理局全面商业运营许可，将在新加坡全岛范围内部署。</p>
+        </div>
+        <div class="card" style="--cat-color: #2563EB;">
+          <div class="card-header">
+            <span class="source">量子位</span>
+          </div>
+          <a href="#" class="card-title">地平线征程6芯片出货量破500万片，成为国内智驾SoC市占率第一</a>
+          <p class="card-summary">地平线宣布其征程6系列智能驾驶芯片累计出货量突破500万片，在国内智驾SoC市场市占率排名第一。</p>
+        </div>
+        <div class="card" style="--cat-color: #2563EB;">
+          <div class="card-header">
+            <span class="source">华为智能驾驶</span>
+          </div>
+          <a href="#" class="card-title">华为ADS 3.0无图城市NCA覆盖全国300+城市，MPI提升60%</a>
+          <p class="card-summary">华为发布ADS 3.0高阶智驾系统最新版本，无图城市领航辅助功能覆盖全国300余个城市，平均接管里程(MPI)较上一代提升60%，已搭载于问界M8、智界S7等车型。</p>
+        </div>
+        <div class="card" style="--cat-color: #2563EB;">
+          <div class="card-header">
+            <span class="source">Momenta</span>
+          </div>
+          <a href="#" class="card-title">Momenta量产方案落地上汽智己，搭载L2+城市领航辅助</a>
+          <p class="card-summary">Momenta宣布其飞轮式自动驾驶方案正式搭载于上汽智己L7量产车型，提供L2+级城市领航辅助功能，支持红绿灯识别、无保护左转等复杂城市路况。</p>
+        </div>
+        <div class="card" style="--cat-color: #2563EB;">
+          <div class="card-header">
+            <span class="source">特斯拉中国</span>
+          </div>
+          <a href="#" class="card-title">特斯拉FSD V13开始向中国用户推送，纯视觉方案首次进入中国市场</a>
+          <p class="card-summary">特斯拉正式开始向中国市场用户推送FSD(Full Self-Driving) V13版本，这是其纯视觉自动驾驶方案首次在中国落地，首批开放城市包括上海、北京、深圳等。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🔬 高校科研 详细 -->
+    <div class="category" style="--cat-color: #D97706; --cat-bg: #FFFBEB; --cat-border: #FDE68A;">
+      <div class="cat-header">
+        <div class="cat-icon">🔬</div>
+        <h2 class="cat-name">高校科研动态</h2>
+        <span class="cat-count">8 条</span>
+      </div>
+      <div class="cards-grid">
+        <div class="card" style="--cat-color: #D97706;">
+          <div class="card-header">
+            <span class="badge badge-hot">🔥 重要</span>
+            <span class="source">arXiv</span>
+          </div>
+          <a href="#" class="card-title">清华大学团队发布SpatialBot：突破机器人空间理解瓶颈，零样本泛化率达92%</a>
+          <p class="card-summary">清华大学交叉信息研究院发布了一项关于机器人空间理解的重大突破，提出SpatialBot框架，在零样本空间推理任务中达到92%的泛化准确率。</p>
+        </div>
+        <div class="card" style="--cat-color: #D97706;">
+          <div class="card-header">
+            <span class="badge badge-rec">⭐ 推荐</span>
+            <span class="source">MIT</span>
+          </div>
+          <a href="#" class="card-title">MIT CSAIL发布RoboGPT：基于大语言模型的机器人任务规划新范式</a>
+          <p class="card-summary">MIT计算机科学与人工智能实验室发布RoboGPT，一种利用大语言模型进行零样本机器人任务规划的新方法，在家庭服务场景中任务完成率达89%。</p>
+        </div>
+        <div class="card" style="--cat-color: #D97706;">
+          <div class="card-header">
+            <span class="badge badge-rec">⭐ 推荐</span>
+            <span class="source">arXiv</span>
+          </div>
+          <a href="#" class="card-title">斯坦福&谷歌联合提出DexCap：双手灵巧操作的通用数据采集框架</a>
+          <p class="card-summary">斯坦福大学与Google DeepMind联合团队发布DexCap框架，通过遥操作数据采集实现双手灵巧操作的通用数据采集。</p>
+        </div>
+        <div class="card" style="--cat-color: #D97706;">
+          <div class="card-header">
+            <span class="source">UC Berkeley</span>
+          </div>
+          <a href="#" class="card-title">UC Berkeley提出DexGraspNet2.0：面向未知物体的通用灵巧抓取</a>
+          <p class="card-summary">UC Berkeley AUTOLab发布DexGraspNet2.0，在1000+种未见物体上实现95.3%的抓取成功率。</p>
+        </div>
+        <div class="card" style="--cat-color: #D97706;">
+          <div class="card-header">
+            <span class="source">浙大</span>
+          </div>
+          <a href="#" class="card-title">浙江大学发布四足机器人运动控制框架，复杂地形通过率提升至97%</a>
+          <p class="card-summary">浙江大学智能系统与控制研究所发布四足机器人运动控制框架，在楼梯、碎石路、斜坡等复杂地形中通过率提升至97%。</p>
+        </div>
+        <div class="card" style="--cat-color: #D97706;">
+          <div class="card-header">
+            <span class="source">上海交大</span>
+          </div>
+          <a href="#" class="card-title">上海交大发布ManipLLM：结合视觉语言模型的机械臂操作框架</a>
+          <p class="card-summary">上海交通大学自主机器人实验室发布ManipLLM，将视觉语言大模型与机械臂操作策略深度融合，在桌面操作基准测试中任务完成率达91.2%，支持多步骤长程任务。</p>
+        </div>
+        <div class="card" style="--cat-color: #D97706;">
+          <div class="card-header">
+            <span class="source">ETH Zurich</span>
+          </div>
+          <a href="#" class="card-title">ETH Zurich推出ANYmal在恶劣天气下的全地形导航系统</a>
+          <p class="card-summary">苏黎世联邦理工学院(ETH)机器人系统实验室发布ANYmal四足机器人全天候导航系统，在暴雨、大雪、浓雾等恶劣天气条件下实现全地形自主导航，定位精度优于5cm。</p>
+        </div>
+        <div class="card" style="--cat-color: #D97706;">
+          <div class="card-header">
+            <span class="source">北京大学</span>
+          </div>
+          <a href="#" class="card-title">北大团队发布GraspNet-1Billion：十亿级抓取数据集推动泛化抓取研究</a>
+          <p class="card-summary">北京大学智能学院联合北京智源研究院发布GraspNet-1Billion数据集，包含超过10亿条6-DoF抓取标注，覆盖190类物体，是目前最大的通用灵巧抓取数据集。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 💰 资本市场 详细 -->
+    <div class="category" style="--cat-color: #DC2626; --cat-bg: #FEF2F2; --cat-border: #FECACA;">
+      <div class="cat-header">
+        <div class="cat-icon">💰</div>
+        <h2 class="cat-name">资本市场动态</h2>
+        <span class="cat-count">8 条</span>
+      </div>
+      <div class="cards-grid">
+        <div class="card" style="--cat-color: #DC2626;">
+          <div class="card-header">
+            <span class="badge badge-hot">🔥 重要</span>
+            <span class="source">36氪</span>
+          </div>
+          <a href="#" class="card-title">星动纪元完成超2亿美元C轮融资，顺丰领投，创具身智能赛道单轮最高纪录</a>
+          <p class="card-summary">星动纪元宣布完成超2亿美元C轮融资，由顺丰集团领投，红杉中国、高瓴创投等跟投，创具身智能赛道单轮融资最高纪录。</p>
+          <div class="hint"><span class="hint-label">💡 HR关注：</span>星动纪元大幅扩招，顺丰战略投资或带来物流场景合作机会</div>
+        </div>
+        <div class="card" style="--cat-color: #DC2626;">
+          <div class="card-header">
+            <span class="badge badge-rec">⭐ 推荐</span>
+            <span class="source">TechCrunch</span>
+          </div>
+          <a href="#" class="card-title">1X Technologies获软银愿景基金3亿美元追加投资，估值升至25亿美元</a>
+          <p class="card-summary">挪威人形机器人公司1X Technologies宣布获得软银愿景基金3亿美元追加投资，公司估值提升至25亿美元。</p>
+        </div>
+        <div class="card" style="--cat-color: #DC2626;">
+          <div class="card-header">
+            <span class="badge badge-rec">⭐ 推荐</span>
+            <span class="source">量子位</span>
+          </div>
+          <a href="#" class="card-title">2026 Q1机器人赛道融资报告：具身智能占52%，仓储物流机器人投资回暖</a>
+          <p class="card-summary">量子位研究院发布2026年Q1机器人赛道融资报告，数据显示具身智能方向融资占比达52%，仓储物流机器人投资回暖。</p>
+        </div>
+        <div class="card" style="--cat-color: #DC2626;">
+          <div class="card-header">
+            <span class="source">Crunchbase</span>
+          </div>
+          <a href="#" class="card-title">Locus Robotics完成F轮融资1.5亿美元，计划2027年IPO</a>
+          <p class="card-summary">仓储机器人公司Locus Robotics完成F轮融资1.5亿美元，由高盛资产管理领投，公司计划2027年在纳斯达克上市。</p>
+        </div>
+        <div class="card" style="--cat-color: #DC2626;">
+          <div class="card-header">
+            <span class="source">钛媒体</span>
+          </div>
+          <a href="#" class="card-title">傅利叶智能获国新基金领投C轮，估值超50亿，人形机器人GR-1进入量产阶段</a>
+          <p class="card-summary">傅利叶智能宣布完成C轮融资，由国新基金领投，估值超50亿元，旗下人形机器人GR-1已进入小批量量产阶段。</p>
+        </div>
+        <div class="card" style="--cat-color: #DC2626;">
+          <div class="card-header">
+            <span class="source">上交所</span>
+          </div>
+          <a href="#" class="card-title">旷视科技科创板IPO恢复审核，拟募资60亿元加码具身智能</a>
+          <p class="card-summary">上交所公告显示旷视科技科创板IPO审核状态恢复为"已问询"，公司拟募集资金60.18亿元，其中25亿元用于具身智能及机器人研发中心建设。</p>
+        </div>
+        <div class="card" style="--cat-color: #DC2626;">
+          <div class="card-header">
+            <span class="source">Rivus Robotics</span>
+          </div>
+          <a href="#" class="card-title">Adeo Group旗下仓储基金领投Rivus Robotics B轮4000万美元</a>
+          <p class="card-summary">法国零售集团Adeo旗下Kingfisher仓储科技基金领投美国仓储机器人公司Rivus Robotics B轮融资4000万美元，公司将用该资金拓展欧洲市场。</p>
+        </div>
+        <div class="card" style="--cat-color: #DC2626;">
+          <div class="card-header">
+            <span class="source">上交所公告</span>
+          </div>
+          <a href="#" class="card-title">国产机器人零部件企业绿的谐波科创板上市，首日涨幅超40%</a>
+          <p class="card-summary">国内谐波减速器龙头企业绿的谐波正式在科创板挂牌上市，发行价35.62元，首日收盘涨幅超40%，市值突破120亿元，反映资本市场对机器人核心零部件的高度关注。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 👥 人员变动 详细 -->
+    <div class="category" style="--cat-color: #0891B2; --cat-bg: #ECFEFF; --cat-border: #A5F3FC;">
+      <div class="cat-header">
+        <div class="cat-icon">👥</div>
+        <h2 class="cat-name">人员变动</h2>
+        <span class="cat-count">8 条</span>
+      </div>
+      <div class="cards-grid">
+        <div class="card" style="--cat-color: #0891B2;">
+          <div class="card-header">
+            <span class="badge badge-hot">🔥 重要</span>
+            <span class="source">雷峰网</span>
+          </div>
+          <a href="#" class="card-title">原小米机器人部总经理辞任，由前大疆CTO接棒，小米具身智能团队面临重组</a>
+          <p class="card-summary">小米集团宣布机器人事业部重大人事调整，原总经理辞任，由前大疆创新CTO接任，小米具身智能团队面临组织架构重组。</p>
+          <div class="hint"><span class="hint-label">💡 HR关注：</span>小米机器人团队重组可能释放技术人才，关注核心工程师流向</div>
+        </div>
+        <div class="card" style="--cat-color: #0891B2;">
+          <div class="card-header">
+            <span class="badge badge-rec">⭐ 推荐</span>
+            <span class="source">钛媒体</span>
+          </div>
+          <a href="#" class="card-title">旷视科技原首席科学家孙剑加入智元机器人担任联席CTO</a>
+          <p class="card-summary">旷视科技原首席科学家、前Face++技术负责人孙剑正式加入智元机器人，担任联席CTO，负责具身智能大模型研发。</p>
+          <div class="hint"><span class="hint-label">💡 HR关注：</span>旷视视觉感知人才可能跟随孙剑迁移至智元，关注人才动态</div>
+        </div>
+        <div class="card" style="--cat-color: #0891B2;">
+          <div class="card-header">
+            <span class="badge badge-new">📰 资讯</span>
+            <span class="source">爱范儿</span>
+          </div>
+          <a href="#" class="card-title">海康威视机器人事业群2026校招扩招200%，重点面向SLAM和运动控制方向</a>
+          <p class="card-summary">海康威视旗下机器人事业群宣布2026届校园招聘计划，相较去年扩招200%，重点面向SLAM导航算法和运动控制方向。</p>
+        </div>
+        <div class="card" style="--cat-color: #0891B2;">
+          <div class="card-header">
+            <span class="source">36氪</span>
+          </div>
+          <a href="#" class="card-title">AutoStore任命新高管团队，前亚马逊机器人VP出任COO</a>
+          <p class="card-summary">挪威仓储自动化公司AutoStore宣布高管团队变动，前亚马逊机器人事业部副总裁出任首席运营官。</p>
+        </div>
+        <div class="card" style="--cat-color: #0891B2;">
+          <div class="card-header">
+            <span class="source">量子位</span>
+          </div>
+          <a href="#" class="card-title">大疆车载团队独立运营，前华为智驾总监出任CEO，更名"卓驭"</a>
+          <p class="card-summary">大疆内部宣布车载团队正式独立运营，公司更名为"卓驭科技"，由前华为智能驾驶解决方案总监出任CEO。</p>
+        </div>
+        <div class="card" style="--cat-color: #0891B2;">
+          <div class="card-header">
+            <span class="source">Reuters</span>
+          </div>
+          <a href="#" class="card-title">前特斯拉Optimus核心工程师加入Figure AI担任感知系统负责人</a>
+          <p class="card-summary">据Reuters报道，特斯拉Optimus人形机器人项目前高级感知工程师已正式加入Figure AI，担任感知系统研发负责人，负责多模态感知与操作融合。</p>
+        </div>
+        <div class="card" style="--cat-color: #0891B2;">
+          <div class="card-header">
+            <span class="source">机器人产业评论</span>
+          </div>
+          <a href="#" class="card-title">极智嘉CTO离任创业，方向为具身智能大模型驱动的仓储机器人</a>
+          <p class="card-summary">极智嘉确认CTO已于上月正式离任并创立新公司，新公司方向聚焦具身智能大模型驱动的下一代仓储机器人，目前已获天使轮融资。</p>
+        </div>
+        <div class="card" style="--cat-color: #0891B2;">
+          <div class="card-header">
+            <span class="source">快仓智能</span>
+          </div>
+          <a href="#" class="card-title">快仓智能聘请前发那科中国区副总裁出任首席商务官，加速全球化布局</a>
+          <p class="card-summary">快仓智能宣布聘请前发那科(FANUC)中国区副总裁担任首席商务官(CCO)，负责公司全球化业务拓展和战略客户开发。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 💼 招聘薪酬趋势 详细 -->
+    <div class="category" style="--cat-color: #7C3AED; --cat-bg: #F5F3FF; --cat-border: #DDD6FE;">
+      <div class="cat-header">
+        <div class="cat-icon">💼</div>
+        <h2 class="cat-name">招聘薪酬趋势</h2>
+        <span class="cat-count">8 条</span>
+      </div>
+      <div class="cards-grid">
+        <div class="card" style="--cat-color: #7C3AED;">
+          <div class="card-header">
+            <span class="badge badge-hot">🔥 重要</span>
+            <span class="source">Boss直聘研究院</span>
+          </div>
+          <a href="#" class="card-title">2026 Q1机器人行业薪酬报告：SLAM算法岗平均薪资42K，同比增长18%</a>
+          <p class="card-summary">Boss直聘研究院发布2026年Q1机器人行业薪酬报告，SLAM导航算法工程师平均月薪达42K，同比涨幅18%；具身智能方向平均薪资38K，同比涨幅25%，成薪资增速最快细分领域。</p>
+          <div class="hint"><span class="hint-label">💡 HR关注：</span>SLAM算法岗薪资持续走高，需关注竞品薪酬水平以保持吸引力</div>
+        </div>
+        <div class="card" style="--cat-color: #7C3AED;">
+          <div class="card-header">
+            <span class="badge badge-hot">🔥 重要</span>
+            <span class="source">脉脉数据</span>
+          </div>
+          <a href="#" class="card-title">脉脉发布2026人才流动报告：机器人行业人才净流入率行业前三，AI人才跳槽涨薪均值35%</a>
+          <p class="card-summary">脉脉大数据研究院发布2026年人才流动趋势报告，机器人/智能制造行业人才净流入率位列全行业前三，AI及算法人才跳槽平均涨薪幅度达35%，远高于互联网行业的22%。</p>
+          <div class="hint"><span class="hint-label">💡 HR关注：</span>行业人才净流入利好招聘，但核心算法岗位竞争激烈需提前布局</div>
+        </div>
+        <div class="card" style="--cat-color: #7C3AED;">
+          <div class="card-header">
+            <span class="badge badge-rec">⭐ 推荐</span>
+            <span class="source">猎聘网</span>
+          </div>
+          <a href="#" class="card-title">猎聘：2026年仓储物流机器人岗位需求同比增长65%，上海/深圳/北京为三大热门城市</a>
+          <p class="card-summary">猎聘网发布仓储物流机器人行业招聘趋势报告，2026年Q1相关岗位需求量同比增长65%，上海、深圳、北京为岗位发布量前三城市，其中深圳岗位增速最快达82%。</p>
+          <div class="hint"><span class="hint-label">💡 HR关注：</span>深圳仓储机器人岗位需求暴增，深圳地区竞品可能大量抢人</div>
+        </div>
+        <div class="card" style="--cat-color: #7C3AED;">
+          <div class="card-header">
+            <span class="badge badge-rec">⭐ 推荐</span>
+            <span class="source">拉勾网</span>
+          </div>
+          <a href="#" class="card-title">拉勾2026校招报告：机器人方向应届生offer数同比增长120%，平均年薪28-45万</a>
+          <p class="card-summary">拉勾网发布2026届应届生招聘趋势报告，机器人与AI方向校招岗位数同比增长120%，头部企业校招offer平均年薪28-45万，其中具身智能方向最高可达50万+总包。</p>
+          <div class="hint"><span class="hint-label">💡 HR关注：</span>校招竞争白热化，需优化应届生薪酬包和培养体系</div>
+        </div>
+        <div class="card" style="--cat-color: #7C3AED;">
+          <div class="card-header">
+            <span class="badge badge-rec">⭐ 推荐</span>
+            <span class="source">量子位</span>
+          </div>
+          <a href="#" class="card-title">2026年AI工程师薪酬全景：大模型方向年包破百万成常态，Robotics方向溢价明显</a>
+          <p class="card-summary">量子位研究院发布2026年AI工程师薪酬全景报告，大模型方向高级工程师年包破百万已成常态，机器人(Robotics)方向因人才稀缺溢价达30%-50%，3年以上经验的运动控制工程师年薪普遍60-100万。</p>
+        </div>
+        <div class="card" style="--cat-color: #7C3AED;">
+          <div class="card-header">
+            <span class="source">36氪</span>
+          </div>
+          <a href="#" class="card-title">智驾行业人才争夺战升级：L4算法工程师平均薪资55K，部分公司开出双倍签字费抢人</a>
+          <p class="card-summary">36氪报道，随着L4自动驾驶商业化加速，行业人才争夺白热化，L4级算法工程师平均月薪达55K，头部公司为抢夺稀缺人才开出双倍签字费（最高30万），部分企业甚至提供股权激励。</p>
+          <div class="hint"><span class="hint-label">💡 HR关注：</span>智驾行业薪资水平可能与仓储机器人行业形成交叉竞争</div>
+        </div>
+        <div class="card" style="--cat-color: #7C3AED;">
+          <div class="card-header">
+            <span class="source">牛客网</span>
+          </div>
+          <a href="#" class="card-title">2026春招数据：机器人公司面试通过率仅15%，算法岗笔试难度持续攀升</a>
+          <p class="card-summary">牛客网发布2026春招数据分析报告，头部机器人公司面试综合通过率仅15%，算法岗位笔试平均通过率不足20%，题目难度较去年提升30%，涉及SLAM、多模态融合、强化学习等前沿方向。</p>
+        </div>
+        <div class="card" style="--cat-color: #7C3AED;">
+          <div class="card-header">
+            <span class="source">领英中国</span>
+          </div>
+          <a href="#" class="card-title">LinkedIn：中国机器人行业海外人才回流加速，2025年海归工程师数量增长40%</a>
+          <p class="card-summary">领英中国发布人才洞察报告，2025年从海外回流的机器人行业工程师数量同比增长40%，主要回流来源为美国(45%)、日本(20%)、德国(15%)，其中具身智能和自主导航方向回流比例最高。</p>
+          <div class="hint"><span class="hint-label">💡 HR关注：</span>海归人才回流增加优质候选人池，需关注海外人才引进策略</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="report-footer">
+    由 AI 自动采集生成 · 极智嘉招聘团队内部参考 · 2026年4月29日<br>
+    <span style="margin-top: 6px; display: inline-block; opacity: 0.6;">V2 预览页面 · 此为设计方案演示，数据为模拟生成</span>
+  </div>
+
+</div>
+</body>
+</html>
