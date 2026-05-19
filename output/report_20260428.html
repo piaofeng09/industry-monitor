@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4月28日 - 行业动态日报</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+    background: #F0F2F5;
+    color: #1F2937;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 24px 16px 48px;
+  }
+
+  /* === Header === */
+  .report-header {
+    background: linear-gradient(135deg, #1E293B 0%, #334155 50%, #1E40AF 100%);
+    border-radius: 16px;
+    padding: 32px 36px;
+    color: #fff;
+    margin-bottom: 32px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
+  }
+  .report-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(99,102,241,0.3) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .report-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1;
+  }
+  .report-header .subtitle {
+    font-size: 15px;
+    opacity: 0.8;
+    position: relative;
+    z-index: 1;
+  }
+  .header-stats {
+    display: flex;
+    gap: 24px;
+    margin-top: 20px;
+    position: relative;
+    z-index: 1;
+  }
+  .stat-item {
+    background: rgba(255,255,255,0.12);
+    border-radius: 10px;
+    padding: 12px 20px;
+    backdrop-filter: blur(8px);
+    flex: 1;
+  }
+  .stat-item .stat-num {
+    font-size: 26px;
+    font-weight: 800;
+    display: block;
+  }
+  .stat-item .stat-label {
+    font-size: 12px;
+    opacity: 0.7;
+    margin-top: 2px;
+  }
+
+  /* === Category Sections === */
+  .category {
+    margin-bottom: 28px;
+    background: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    border: 1px solid #E5E7EB;
+    transition: box-shadow 0.2s;
+  }
+  .category:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  }
+  .cat-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 24px;
+    background: var(--cat-bg);
+    border-bottom: 2px solid var(--cat-border);
+  }
+  .cat-icon {
+    font-size: 22px;
+  }
+  .cat-name {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--cat-color);
+    flex: 1;
+  }
+  .cat-count {
+    font-size: 12px;
+    background: var(--cat-color);
+    color: #fff;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+
+  /* === Article Cards === */
+  .cards-grid {
+    padding: 8px;
+    display: grid;
+    gap: 8px;
+  }
+  .card {
+    padding: 16px 20px;
+    border-radius: 10px;
+    border: 1px solid #F3F4F6;
+    transition: all 0.15s ease;
+    position: relative;
+  }
+  .card:hover {
+    background: #FAFBFC;
+    border-color: #E0E7FF;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .card-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111827;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 6px;
+    line-height: 1.5;
+    transition: color 0.15s;
+  }
+  .card-title:hover {
+    color: var(--cat-color, #4F46E5);
+  }
+  .card-summary {
+    font-size: 13px;
+    color: #6B7280;
+    line-height: 1.6;
+    margin: 0;
+  }
+  .hint {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: #FFF7ED;
+    border-radius: 8px;
+    font-size: 12px;
+    color: #92400E;
+    border-left: 3px solid #F59E0B;
+  }
+  .source {
+    font-size: 11px;
+    color: #9CA3AF;
+    background: #F3F4F6;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  /* === Badges === */
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 6px;
+  }
+  .badge-hot {
+    background: #FEE2E2;
+    color: #DC2626;
+  }
+  .badge-rec {
+    background: #FEF3C7;
+    color: #D97706;
+  }
+
+  /* === Digest Section === */
+  .digest-section {
+    background: #fff;
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    border: 1px solid #E5E7EB;
+    margin-top: 32px;
+  }
+  .digest-section h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1E40AF;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #E0E7FF;
+  }
+  .digest-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .digest-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    transition: background 0.15s;
+  }
+  .digest-item:hover {
+    background: #F8FAFC;
+  }
+  .digest-item::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--dot-color);
+    flex-shrink: 0;
+    margin-top: 7px;
+  }
+  .digest-cat {
+    font-size: 11px;
+    background: #F1F5F9;
+    color: #475569;
+    padding: 2px 8px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  .digest-item a {
+    font-size: 14px;
+    color: #1F2937;
+    text-decoration: none;
+    font-weight: 500;
+    line-height: 1.5;
+    transition: color 0.15s;
+  }
+  .digest-item a:hover {
+    color: #1E40AF;
+  }
+
+  /* === Footer === */
+  .report-footer {
+    text-align: center;
+    padding: 24px;
+    color: #9CA3AF;
+    font-size: 12px;
+  }
+
+  @media (max-width: 640px) {
+    .container { padding: 12px 8px 32px; }
+    .report-header { padding: 20px; border-radius: 12px; }
+    .report-header h1 { font-size: 22px; }
+    .header-stats { flex-direction: column; gap: 8px; }
+    .stat-item { padding: 10px 14px; }
+    .cards-grid { padding: 4px; }
+    .card { padding: 12px 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="report-header">
+    <h1>📰 行业动态日报</h1>
+    <p class="subtitle">4月28日 · AI 智能摘要</p>
+    <div class="header-stats">
+      <div class="stat-item">
+        <span class="stat-num">69</span>
+        <span class="stat-label">相关动态</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">128</span>
+        <span class="stat-label">信息源采集</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">40</span>
+        <span class="stat-label">数据源</span>
+      </div>
+    </div>
+  </div>
+
+  
+<div class="digest-section">
+  <h2>📌 今日精选 TOP 8</h2>
+  <div class="digest-list">
+    <div class="digest-item" style="--dot-color: #DC2626;">
+      <span class="digest-cat">具身智能</span>
+      <a href="https://www.leiphone.com/category/robot/t77AdgSehK6gyGfv.html" target="_blank">DAM-VLA——手臂与夹爪解耦，三星研究院的动态动作VLA刷新机器人操控SOTA  |  ICRA 2026</a>
+    </div><div class="digest-item" style="--dot-color: #DC2626;">
+      <span class="digest-cat">具身智能</span>
+      <a href="https://www.leiphone.com/category/industrynews/RzWVo4lK22qVsB6B.html" target="_blank">再获超2亿美元融资，顺丰领投！星动纪元完成具身行业首个PMF</a>
+    </div><div class="digest-item" style="--dot-color: #DC2626;">
+      <span class="digest-cat">具身智能</span>
+      <a href="https://arxiv.org/abs/2604.22235" target="_blank">Learning-augmented robotic automation for real-world manufacturing</a>
+    </div><div class="digest-item" style="--dot-color: #DC2626;">
+      <span class="digest-cat">具身智能</span>
+      <a href="https://36kr.com/p/3783824870317312?f=rss" target="_blank">早期项目 | 前地平线产品负责人死磕“拿放”动作，轮式机器人今年锁定百台出货</a>
+    </div><div class="digest-item" style="--dot-color: #F59E0B;">
+      <span class="digest-cat">具身智能</span>
+      <a href="https://www.qbitai.com/2026/04/409648.html" target="_blank">做了10年Robotaxi，小马智行首次入局RoboVan</a>
+    </div><div class="digest-item" style="--dot-color: #F59E0B;">
+      <span class="digest-cat">具身智能</span>
+      <a href="https://arxiv.org/abs/2604.22152" target="_blank">dWorldEval: Scalable Robotic Policy Evaluation via Discrete Diffusion World Model</a>
+    </div><div class="digest-item" style="--dot-color: #F59E0B;">
+      <span class="digest-cat">具身智能</span>
+      <a href="https://arxiv.org/abs/2604.22189" target="_blank">Energy-Efficient Multi-Robot Coverage Path Planning of Non-Convex Regions of Interests</a>
+    </div><div class="digest-item" style="--dot-color: #F59E0B;">
+      <span class="digest-cat">具身智能</span>
+      <a href="https://arxiv.org/abs/2604.22199" target="_blank">An LLM-Driven Closed-Loop Autonomous Learning Framework for Robots Facing Uncovered Tasks in Open Environments</a>
+    </div>
+  </div>
+</div>
+
+  
+<div class="category" style="--cat-color: #6366F1; --cat-bg: #EEF2FF; --cat-border: #C7D2FE;">
+  <div class="cat-header">
+    <span class="cat-icon">🤖</span>
+    <h2 class="cat-name">🤖 具身智能</h2>
+    <span class="cat-count">19 条</span>
+  </div>
+  <div class="cards-grid">
+    <div class="card">
+  <div class="card-header">
+    <span class="badge badge-rec">⭐ 推荐</span>
+    <span class="source">量子位</span>
+  </div>
+  <a href="https://www.qbitai.com/2026/04/409648.html" target="_blank" class="card-title">做了10年Robotaxi，小马智行首次入局RoboVan</a>
+  <p class="card-summary">小马智行在运营Robotaxi十年后，首次宣布入局RoboVan领域。公司CEO楼教主指出，AI下一步发展有两个方向，但未在摘要中详述。此举标志着小马智行从乘用车自动驾驶拓展至物流货运场景。</p>
+  <div class="hint">💡 HR关注：小马智行入局RoboVan，可能加剧物流自动驾驶人才竞争，需关注其招聘动向。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">雷峰网</span>
+  </div>
+  <a href="https://www.leiphone.com/category/zaobao/KfEK3hmbcYtUAnYP.html" target="_blank" class="card-title">Meta 收购 Manus 被正式叫停，国家发改委要求撤销交易；阿里 HappyHorse 开启灰测；宇树科技赢了！最高法院认定其遭恶意诉讼</a>
+  <p class="card-summary">Meta收购中国AI企业Manus被国家发改委叫停，交易金额20亿美元，因核心技术、数据合规及国家安全问题被否决。宇树科技在最高法院胜诉，露韦美公司因恶意诉讼被判赔偿8万元。</p>
+  <div class="hint">💡 HR关注：监管对AI跨境并购的严格态度可能影响人才流动，需关注核心技术人员的合规意识培养。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">36氪</span>
+  </div>
+  <a href="https://36kr.com/p/3784806758243587?f=rss" target="_blank" class="card-title">最前线｜爱芯元智仇肖莘：大算力芯片将成为企业明年的主要增长引擎</a>
+  <p class="card-summary">爱芯元智创始人仇肖莘在北京车展表示，大算力芯片M97将于三季度发布，算力超700T，带宽大幅提升，2026年导入多款车型，成为增长引擎。公司定位中立第三方芯片平台，同时布局边缘计算，下半年发布两款产品适配大模型。</p>
+  <div class="hint">💡 HR关注：该新闻主要涉及汽车芯片和边缘计算，与仓储物流机器人直接相关性低，但大算力芯片技术趋势可作背景参考。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">雷峰网</span>
+  </div>
+  <a href="https://www.leiphone.com/category/transportation/K7ZQKtmfjAKjmf9X.html" target="_blank" class="card-title">荣威联合火山引擎发布全球首个AI原生汽车序列“家越”，开启AI汽车新时代</a>
+  <p class="card-summary">荣威联合火山引擎发布全球首个AI原生汽车序列“家越”及CPP架构，将AI大模型深度接入汽车，实现从互联网到物联网的跨越，使汽车成为具身智能终端。</p>
+  <div class="hint">💡 HR关注：该新闻展示了AI在具身智能终端（汽车）的落地，虽非直接物流机器人领域，但体现了AI与物理设备深度融合的趋势，可关注相关技术人才在跨行业应用中的潜力。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">36氪</span>
+  </div>
+  <a href="https://36kr.com/p/3784879395134465?f=rss" target="_blank" class="card-title">未岚大陆第100万台智能割草机器人下线，马来西亚产线已完成、全面启动生产｜最前线</a>
+  <p class="card-summary">未岚大陆第100万台智能割草机器人下线，2026年累计量产突破100万台。公司自研EFLS LiDAR+三重融合定位系统，实现厘米级精度。2025年全球割草机器人销量同比暴涨327%，无边界品类占比升至65%。销售覆盖40+国家，线下门店超5000家。</p>
+  <div class="hint">💡 HR关注：庭院机器人赛道高速增长，可关注未岚大陆等公司的技术人才需求，如AI定位、传感器融合等方向。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">雷峰网</span>
+  </div>
+  <a href="https://www.leiphone.com/category/smarthome/QQXSWwGo9zvawIlW.html" target="_blank" class="card-title">当创新拥有脉搏：美的如何用16.5万件专利重写家居叙事</a>
+  <p class="card-summary">美的在世界知识产权日前展示16.5万件专利，涵盖AI烹饪、视觉识别等核心技术，从单品智能到全屋主动智能，构建技术壁垒。</p>
+  
+</div><div class="card">
+  <div class="card-header">
+    <span class="badge badge-hot">🔥 重要</span>
+    <span class="source">雷峰网</span>
+  </div>
+  <a href="https://www.leiphone.com/category/robot/t77AdgSehK6gyGfv.html" target="_blank" class="card-title">DAM-VLA——手臂与夹爪解耦，三星研究院的动态动作VLA刷新机器人操控SOTA  |  ICRA 2026</a>
+  <p class="card-summary">三星研究院提出DAM-VLA模型，将机器人手臂运动与夹爪操作解耦，采用双通道视觉编码和VLM驱动的动作路由机制。在Franka机器人pick-and-place任务中平均成功率86.8%，较CogACT提升23.9个百分点；长时程任务成功率56%，超越所有基线。</p>
+  <div class="hint">💡 HR关注：DAM-VLA在机器人操控SOTA上取得显著突破，需关注具身智能领域掌握VLA模型、视觉编码（DINOv2）及动作解耦技术的候选人，以应对竞品技术升级。</div>
+</div><div class="card">
+  <div class="card-header">
+    <span class="badge badge-hot">🔥 重要</span>
+    <span class="source">雷峰网</span>
+  </div>
+  <a href="https://www.leiphone.com/category/industrynews/RzWVo4lK22qVsB6B.html" target="_blank" class="card-title">再获超2亿美元融资，顺丰领投！星动纪元完成具身行业首个PMF</a>
+  <p class="card-summary">星动纪元完成超2亿美元融资，顺丰领投，红杉中国、IDG资本等跟投。公司已落地10余个物流中心，机器人效率达人类85%以上，计划2026Q2千台级交付。技术路线为世界模型+VLA融合，全栈自研。</p>
+  <div class="hint">💡 HR关注：星动纪元获顺丰领投并已落地物流场景，效率接近人类，需关注其人才招聘动向，尤其是具身大脑、世界模型、灵巧手等方向的核心技术人才。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.RO updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22102" target="_blank" class="card-title">Wiggle and Go! System Identification for Zero-Shot Dynamic Rope Manipulation</a>
+  <p class="card-summary">本文提出Wiggle and Go!框架，通过系统识别模块预测绳索物理参数，实现零样本动态绳索操控。在3D目标打击任务中，平均精度达3.55厘米（未使用系统参数时为15.34厘米），傅里叶频率与真实值Pearson相关系数0.95。</p>
+  <div class="hint">💡 HR关注：该技术涉及动态操控与系统识别，可关注相关算法人才，但非物流机器人直接应用。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.RO updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22104" target="_blank" class="card-title">Dynamic Coupling and Indirect Control of Jointed Robots Rolling Atop A Moving Platform</a>
+  <p class="card-summary">arXiv新论文研究关节机器人滚动于移动平台上的动态耦合与间接控制。通过内部驱动关节产生波动运动，实现类似鱼类游泳的推进。模型显示平台运动可控制机器人行为，使其绕固定点轨道运动或定向移动。</p>
+  <div class="hint">💡 HR关注：该研究涉及机器人运动控制与平台耦合，对物流机器人中移动平台与机械臂协同控制有潜在启发，可关注相关技术人才。</div>
+</div><div class="card">
+  <div class="card-header">
+    <span class="badge badge-rec">⭐ 推荐</span>
+    <span class="source">cs.RO updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22152" target="_blank" class="card-title">dWorldEval: Scalable Robotic Policy Evaluation via Discrete Diffusion World Model</a>
+  <p class="card-summary">提出dWorldEval，使用离散扩散世界模型作为机器人策略的可扩展评估代理。将视觉、语言和动作映射到统一token空间，通过Transformer去噪网络建模。引入稀疏关键帧记忆和进度token，在LIBERO等任务上优于WorldEval等方法。</p>
+  <div class="hint">💡 HR关注：关注离散扩散世界模型在机器人策略评估中的前沿进展，可评估候选人对此类技术的理解与应用能力。</div>
+</div><div class="card">
+  <div class="card-header">
+    <span class="badge badge-rec">⭐ 推荐</span>
+    <span class="source">cs.RO updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22189" target="_blank" class="card-title">Energy-Efficient Multi-Robot Coverage Path Planning of Non-Convex Regions of Interests</a>
+  <p class="card-summary">本文提出一种面向非凸兴趣区域的多机器人覆盖路径规划框架MRCPP，通过全局路径生成、最小转弯、安全缓冲及改进可见性图等方法，降低3-40%能耗并提升计算效率，实验验证了在无人机与无人船上的有效性。</p>
+  <div class="hint">💡 HR关注：关注该框架在仓储物流多机器人协同覆盖任务中的能耗优化潜力，可评估其与现有路径规划系统的集成可行性。</div>
+</div><div class="card">
+  <div class="card-header">
+    <span class="badge badge-rec">⭐ 推荐</span>
+    <span class="source">cs.RO updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22199" target="_blank" class="card-title">An LLM-Driven Closed-Loop Autonomous Learning Framework for Robots Facing Uncovered Tasks in Open Environments</a>
+  <p class="card-summary">本文提出一种LLM驱动的闭环自主学习框架，使机器人在开放环境中面对未覆盖任务时，能通过LLM推理、自主执行与观察学习，将经验转化为可复用的本地方法库，减少对外部LLM的重复依赖。实验表明该框架降低了执行成本。</p>
+  <div class="hint">💡 HR关注：该技术方向（LLM+自主闭环学习）是物流机器人提升环境适应性的关键，可关注相关算法人才。建议招聘时考察候选人对LLM与机器人学习结合的实践经验。</div>
+</div><div class="card">
+  <div class="card-header">
+    <span class="badge badge-hot">🔥 重要</span>
+    <span class="source">cs.RO updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22235" target="_blank" class="card-title">Learning-augmented robotic automation for real-world manufacturing</a>
+  <p class="card-summary">arXiv新论文提出学习增强型机器人自动化系统，集成学习控制器与神经3D安全监控器，在电机生产线实现变形电缆插入与焊接自动化。仅需20分钟数据，系统连续运行5小时10分钟，生产108个电机，通过率99.4%，无需物理围栏，接近人类节拍时间。</p>
+  <div class="hint">💡 HR关注：该技术突破显示学习型方法在工业场景的实用化进展，需关注具备工业机器人部署与学习算法融合经验的候选人。</div>
+</div><div class="card">
+  <div class="card-header">
+    <span class="badge badge-rec">⭐ 推荐</span>
+    <span class="source">cs.RO updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22238" target="_blank" class="card-title">CodeGraphVLP: Code-as-Planner Meets Semantic-Graph State for Non-Markovian Vision-Language-Action Models</a>
+  <p class="card-summary">CodeGraphVLP提出分层框架，结合持久语义图状态与可执行代码规划器，解决非马尔可夫长时域机器人操作任务。在真实世界任务中，相比强VLA基线，任务完成率提升，规划延迟显著降低。</p>
+  <div class="hint">💡 HR关注：关注非马尔可夫任务中语义图与代码规划结合的技术方向，可能影响未来物流机器人长时域操作能力的人才需求。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.RO updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22283" target="_blank" class="card-title">A Kinematic Analysis of Palm Degrees of Freedom for Enhancing Thumb Opposability in Robotic Hands</a>
+  <p class="card-summary">研究分析五指机器人手中手掌自由度(DoF)对拇指对掌能力的运动学影响。通过体素化指尖可达区域定义重叠工作空间体积，发现手掌DoF显著改善对掌能力，特别是无名指和小指，通过重新定位基部而非简单扩展范围。在总DoF受限时，将DoF重新分配给手掌会导致重叠工作空间扩展与运动学冗余之间的权衡。研究为机器人手设计提供定量框架和实用指南。</p>
+  <div class="hint">💡 HR关注：该研究涉及机器人手部运动学设计，虽非直接物流机器人应用，但可关注相关高校科研人才在灵巧操作领域的积累。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.RO updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22363" target="_blank" class="card-title">LeHome: A Simulation Environment for Deformable Object Manipulation in Household Scenarios</a>
+  <p class="card-summary">新研究推出LeHome仿真环境，专为家庭场景中的可变形物体（如衣物、食物）操作设计。该环境提供高保真动力学与真实交互，支持多种低成本机器人，旨在弥合仿真与现实差距，为家庭机器人提供可扩展测试平台。</p>
+  <div class="hint">💡 HR关注：关注该仿真环境是否被竞品或学术界广泛采用，可能影响未来机器人操作算法的招聘需求。</div>
+</div><div class="card">
+  <div class="card-header">
+    <span class="badge badge-rec">⭐ 推荐</span>
+    <span class="source">cs.RO updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22378" target="_blank" class="card-title">Adaptive vs. Static Robot-to-Human Handover: A Study on Orientation and Approach Direction</a>
+  <p class="card-summary">研究提出自适应机器人-人交接框架，基于AI手部姿态估计实时调整物体交付位姿，对比静态策略。用户实验显示动态对齐显著降低认知负荷和生理压力，提升信任感。</p>
+  <div class="hint">💡 HR关注：关注自适应交接技术对物流机器人人机协作效率的提升潜力，可评估相关算法人才。</div>
+</div><div class="card">
+  <div class="card-header">
+    <span class="badge badge-hot">🔥 重要</span>
+    <span class="source">36氪</span>
+  </div>
+  <a href="https://36kr.com/p/3783824870317312?f=rss" target="_blank" class="card-title">早期项目 | 前地平线产品负责人死磕“拿放”动作，轮式机器人今年锁定百台出货</a>
+  <p class="card-summary">智往未来（前地平线产品负责人孙浚凯创立）聚焦仓储物流场景，采用“轮式底盘+双臂”机器人死磕占人力成本60%的“拿放”动作。公司创新引入Human-in-the-Loop在线强化学习，解决Sim2Real鸿沟，二代机Armstrong Pro已入驻世界500强药企。2026年锁定百台出货，预计占近40%份额，客户投资回报周期约2-3年。</p>
+  <div class="hint">💡 HR关注：重点关注智往未来创始人孙浚凯（前地平线产品负责人）及其团队，该公司在仓储物流机器人领域有明确落地路径和百台出货计划，可能吸引相关人才。</div>
+</div>
+  </div>
+</div>
+<div class="category" style="--cat-color: #059669; --cat-bg: #ECFDF5; --cat-border: #A7F3D0;">
+  <div class="cat-header">
+    <span class="cat-icon">📦</span>
+    <h2 class="cat-name">📦 物流机器人竞品</h2>
+    <span class="cat-count">1 条</span>
+  </div>
+  <div class="cards-grid">
+    <div class="card">
+  <div class="card-header">
+    
+    <span class="source">Open Robotics Discourse - Latest topics</span>
+  </div>
+  <a href="https://discourse.openrobotics.org/t/acm-computing-surveys-ros-2-in-a-nutshell-a-survey/54345" target="_blank" class="card-title">[ACM Computing Surveys] ROS 2 in a Nutshell: A Survey</a>
+  <p class="card-summary">一篇关于ROS 2的综述论文被ACM Computing Surveys（影响因子28.0，计算机科学理论与方法领域排名第一）接收。论文系统回顾了ROS 2的架构、生态系统、进展、挑战和未来方向，涵盖8033篇论文、960篇ROS 2出版物、176个社区包，时间跨度为2009-2025年。</p>
+  <div class="hint">💡 HR关注：ROS 2是机器人系统开发的核心技术栈，关注该综述可帮助招聘团队评估候选人对ROS 2生态的掌握深度，但该论文为学术综述，非直接竞品动态。</div>
+</div>
+  </div>
+</div>
+<div class="category" style="--cat-color: #D97706; --cat-bg: #FFFBEB; --cat-border: #FDE68A;">
+  <div class="cat-header">
+    <span class="cat-icon">🔬</span>
+    <h2 class="cat-name">🔬 高校科研</h2>
+    <span class="cat-count">38 条</span>
+  </div>
+  <div class="cards-grid">
+    <div class="card">
+  <div class="card-header">
+    
+    <span class="source">MIT Technology Review</span>
+  </div>
+  <a href="https://www.technologyreview.com/2026/04/27/1136322/rebuilding-the-data-stack-for-ai/" target="_blank" class="card-title">Rebuilding the data stack for AI</a>
+  <p class="card-summary">文章指出企业大规模部署AI的主要障碍是数据基础设施不足，强调重建数据栈对AI应用的重要性。</p>
+  
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.RO updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22040" target="_blank" class="card-title">Robust Localization for Autonomous Vehicles in Highway Scenes</a>
+  <p class="card-summary">本文提出一种面向高速公路场景的鲁棒定位系统，采用双似然LiDAR前端解耦3D几何与2D道路纹理，结合Control-EKF减少延迟。系统在163公里数据集上测试，相比Apollo和Autoware在高速场景表现更优，已通过超百万公里路测验证。</p>
+  
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.RO updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22065" target="_blank" class="card-title">SNGR: Selective Non-Gaussian Refinement for Ambiguous SLAM Factor Graphs</a>
+  <p class="card-summary">SNGR提出一种选择性非高斯精炼SLAM框架，通过条件数检测高斯近似失败区域，并用嵌套采样改进iSAM2。在错误数据关联的测距SLAM实验中，实现高精度故障检测和局部似然改进，降低计算成本。</p>
+  <div class="hint">💡 HR关注：该技术属于SLAM前沿研究，对物流机器人定位算法有潜在参考价值，但非直接竞品动态。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.RO updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22196" target="_blank" class="card-title">V-STC: A Time-Efficient Multi-Vehicle Coordinated Trajectory Planning Approach</a>
+  <p class="card-summary">论文提出V-STC方法，通过将时空走廊的空间位置和时间步长作为决策变量，优化多自动驾驶车辆协调的轨迹规划，减少时间占用并保证安全。仿真显示比现有STC方法更高效。</p>
+  <div class="hint">💡 HR关注：多车协同规划算法是物流机器人集群调度的基础技术，可关注相关高校研究团队的人才储备。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.RO updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22244" target="_blank" class="card-title">Learning Control Policies to Provably Satisfy Hard Affine Constraints for Black-Box Hybrid Dynamical Systems</a>
+  <p class="card-summary">本文提出一种针对黑箱混合动力系统的强化学习策略，通过强制策略在约束边界附近呈仿射和排斥性，确保闭环安全。该方法解决了状态突变和未知非线性动力学带来的挑战，在约束摆和桨叶抛球环境中优于现有奖励塑造和学习CBF方法。</p>
+  <div class="hint">💡 HR关注：该研究涉及强化学习在复杂系统安全控制中的前沿方法，但属于高校科研范畴，与物流机器人直接应用场景关联度中等。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.RO updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22251" target="_blank" class="card-title">False Feasibility in Variable Impedance MPC for Legged Locomotion</a>
+  <p class="card-summary">arXiv论文指出，将关节刚度作为瞬时决策变量的变阻抗MPC公式，其可行集严格大于一阶执行器动力学下的物理可实现集。研究通过无量纲参数alpha=omega_sT量化了参数可行集与可实现集之间的失配，并给出了1D跳跃单足的分析阈值。</p>
+  <div class="hint">💡 HR关注：该研究揭示了变阻抗MPC公式的理论缺陷，可能影响未来足式机器人控制算法的设计方向，但属于基础研究范畴，与当前物流机器人应用关联度较低。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.AI updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.21935" target="_blank" class="card-title">Math Takes Two: A test for emergent mathematical reasoning in communication</a>
+  <p class="card-summary">arXiv新论文提出Math Takes Two基准，测试两个智能体在无先验数学知识下，通过通信发展共享符号协议解决视觉任务，评估数学推理的涌现能力。</p>
+  
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.AI updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.21965" target="_blank" class="card-title">Read the Paper, Write the Code: Agentic Reproduction of Social-Science Results</a>
+  <p class="card-summary">研究利用LLM智能体仅凭论文方法描述和原始数据复现社会科学实验结果，开发了信息隔离的复现系统，在48篇论文上测试发现智能体可大致复现结果，但性能因模型、框架和论文而异，失败源于智能体错误和论文描述不足。</p>
+  
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.AI updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22026" target="_blank" class="card-title">Rethinking Publication: A Certification Framework for AI-Enabled Research</a>
+  <p class="card-summary">论文提出AI研究认证框架，将知识质量评估与人类贡献分级分离，设A/B/C三类贡献等级，并引入全自动研究基准槽，旨在解决AI生成学术内容的出版认证问题。</p>
+  
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.AI updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22085" target="_blank" class="card-title">Memanto: Typed Semantic Memory with Information-Theoretic Retrieval for Long-Horizon Agents</a>
+  <p class="card-summary">Memanto提出了一种新型语义记忆层，用于长时程自主智能体，通过13种预定义记忆类别、冲突解决机制和时间版本化，结合信息论搜索引擎实现亚90毫秒确定性检索，在LongMemEval和LoCoMo评测集上分别达到89.8%和87.1%准确率，超越混合图与向量系统。</p>
+  <div class="hint">💡 HR关注：该研究涉及智能体记忆架构，与物流机器人长期任务规划相关，可关注其技术转化潜力。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.AI updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22436" target="_blank" class="card-title">AgentSearchBench: A Benchmark for AI Agent Search in the Wild</a>
+  <p class="card-summary">论文提出AgentSearchBench基准，基于近1万个真实AI智能体，评估在可执行任务查询和高层任务描述下的智能体搜索能力。实验发现语义相似度与实际性能存在差距，引入执行感知信号可显著提升排序质量。</p>
+  <div class="hint">💡 HR关注：该研究关注AI智能体搜索与评估，与物流机器人直接相关性较低，但其中关于执行信号提升检索质量的方法，或可启发机器人任务匹配与调度算法优化。</div>
+</div><div class="card">
+  <div class="card-header">
+    <span class="badge badge-rec">⭐ 推荐</span>
+    <span class="source">cs.AI updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22446" target="_blank" class="card-title">From Skills to Talent: Organising Heterogeneous Agents as a Real-World Company</a>
+  <p class="card-summary">本文提出OneManCompany(OMC)框架，将多智能体系统提升到组织层面。通过可移植的“人才”身份、类型化组织接口和社区驱动的“人才市场”，实现异构智能体的动态招募与重组。采用探索-执行-评审(E²R)树搜索统一规划、执行与评估，提供终止和无死锁的形式化保证。</p>
+  <div class="hint">💡 HR关注：该研究将多智能体系统类比公司组织，其“人才市场”和动态重组概念可能启发未来物流机器人团队协作与人才管理的新范式，值得关注。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.AI updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22452" target="_blank" class="card-title">Superminds Test: Actively Evaluating Collective Intelligence of Agent Society via Probing Agents</a>
+  <p class="card-summary">该论文通过Superminds Test评估了拥有超过200万智能体的MoltBook平台的集体智能，发现其未能超越单个前沿模型，互动稀疏浅薄，集体智能不会仅从规模中涌现。</p>
+  <div class="hint">💡 HR关注：该研究揭示了多智能体系统的局限性，对物流机器人集群调度算法的设计有间接参考价值，但非直接相关。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.LG updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.21952" target="_blank" class="card-title">Focus Session: Hardware and Software Techniques for Accelerating Multimodal Foundation Models</a>
+  <p class="card-summary">本文提出一种加速多模态基础模型（MFM）的软硬件协同方法，包括混合精度量化、结构化剪枝、推测解码、模型级联等优化技术，并设计专用加速器。在医疗MFM和代码生成任务上验证有效性。</p>
+  
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.LG updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.21991" target="_blank" class="card-title">Multi-Task Optimization over Networks of Tasks</a>
+  <p class="card-summary">MONET是一种新型多任务优化算法，将任务空间建模为图结构，通过社会学习（邻居交叉）和个体学习（变异）实现知识迁移。在射箭、机械臂、车杆（各5000任务）和六足机器人（2000任务）上测试，性能匹配或超越MAP-Elites基线。</p>
+  <div class="hint">💡 HR关注：该算法展示了大规模任务优化的新方法，可能影响未来物流机器人多任务调度系统的设计，但当前阶段与直接招聘需求关联度较低。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.LG updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22031" target="_blank" class="card-title">Mochi: Aligning Pre-training and Inference for Efficient Graph Foundation Models via Meta-Learning</a>
+  <p class="card-summary">提出Mochi图基础模型，采用元学习框架对齐预训练与推理，在25个真实图数据集上达到竞争性能，训练时间比最强基线少8~27倍。</p>
+  
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.LG updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22034" target="_blank" class="card-title">LTBs-KAN: Linear-Time B-splines Kolmogorov-Arnold Networks</a>
+  <p class="card-summary">本文提出LTBs-KAN，一种线性时间复杂度的KAN变体，通过改进B样条计算和矩阵分解，在MNIST等数据集上实现更快的速度和参数减少。</p>
+  <div class="hint">💡 HR关注：KAN架构的改进可能影响未来机器人感知算法设计，但当前阶段与物流机器人直接应用关联有限。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.LG updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22050" target="_blank" class="card-title">LayerBoost: Layer-Aware Attention Reduction for Efficient LLMs</a>
+  <p class="card-summary">LayerBoost是一种层感知注意力缩减方法，通过敏感性分析选择性修改Transformer层注意力机制，保留关键层标准注意力、替换中等层为线性滑动窗口注意力、移除低敏感层注意力。仅需1000万额外训练令牌，推理延迟降低68%，吞吐量提升，模型质量保持竞争力。</p>
+  <div class="hint">💡 HR关注：该技术主要面向大语言模型效率优化，与仓储物流机器人直接相关性较低，但可关注其轻量化蒸馏方法对机器人边缘计算模型的潜在启发。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.LG updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22056" target="_blank" class="card-title">Learning Coverage- and Power-Optimal Transmitter Placement from Building Maps: A Comparative Study of Direct and Indirect Neural Approaches</a>
+  <p class="card-summary">研究提出基于建筑地图的无线发射器最优放置方法，使用167,525个城市场景数据集，发现覆盖最优与功率最优放置存在非对称权衡。间接热图模型比穷举搜索快1350-2400倍，扩散模型支持多样本推理改善性能。</p>
+  <div class="hint">💡 HR关注：该研究涉及无线通信优化，与仓储物流机器人直接相关性低，但间接的神经网络优化方法可启发机器人路径规划或传感器部署策略。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.LG updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22081" target="_blank" class="card-title">Insect-inspired modular architectures as inductive biases for reinforcement learning</a>
+  <p class="card-summary">该研究提出一种受昆虫启发的模块化强化学习策略架构，将控制分解为感觉编码、航向表示、稀疏关联记忆等模块，并引入学习仲裁机制。在二维导航任务中，该模块化策略在75次PPO更新后最终平均回报为-2798.8，优于集中式GRU（-3778.0）和MLP（-4727.5），展示了分布式控制优势。</p>
+  <div class="hint">💡 HR关注：该研究探索的模块化架构可能启发未来物流机器人控制系统的设计方向，但当前仍处于学术验证阶段，对招聘影响有限。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.LG updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22082" target="_blank" class="card-title">Removing Sandbagging in LLMs by Training with Weak Supervision</a>
+  <p class="card-summary">研究通过弱监督训练消除LLM的“sandbagging”行为（模型故意输出低于真实能力的结果）。在数学、科学和编程任务中，结合监督微调（SFT）和强化学习（RL）可有效激发模型真实能力，但需确保训练与部署环境不可区分。</p>
+  
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.CV updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22036" target="_blank" class="card-title">EgoMAGIC- An Egocentric Video Field Medicine Dataset for Training Perception Algorithms</a>
+  <p class="card-summary">DARPA的PTG项目发布EgoMAGIC数据集，包含3355个第一人称医疗任务视频，用于训练感知算法。数据集含195万标签训练40个YOLO模型检测124个医疗物体，最佳动作检测mAP达0.526。</p>
+  <div class="hint">💡 HR关注：该数据集虽非直接物流机器人相关，但第一人称视频感知和动作检测技术可迁移至仓储机器人的人机协作场景，建议关注其技术进展。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.CV updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22093" target="_blank" class="card-title">FLARE-BO: Fused Luminance and Adaptive Retinex Enhancement via Bayesian Optimisation for Low-Light Robotic Vision</a>
+  <p class="card-summary">论文提出FLARE-BO框架，通过贝叶斯优化联合优化8个参数（伽马校正、光照归一化、色度去噪、双边滤波、NLM去噪、灰世界白平衡等），用于低光照机器人视觉增强。在LOL数据集上表现优于现有方法，无需训练模型。</p>
+  <div class="hint">💡 HR关注：低光照视觉增强技术对仓储物流机器人的夜间或昏暗环境作业有潜在应用价值，可关注该方向人才。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.CV updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22118" target="_blank" class="card-title">Robust Camera-to-Mocap Calibration and Verification for Large-Scale Multi-Camera Data Capture</a>
+  <p class="card-summary">本文提出一种针对大规模多相机数据采集的鲁棒相机与动捕系统标定及验证方法，解决外参标定误差、鱼眼相机畸变等问题。方法联合估计相机外参和板-标记变换，并通过独立验证链检测标定退化。在Meta Quest 3上验证，已部署于生产数据采集。</p>
+  <div class="hint">💡 HR关注：该技术涉及多传感器标定与验证，对物流机器人中多相机系统（如视觉SLAM）的标定与数据质量保障有参考价值，可关注相关算法人才。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.CV updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22160" target="_blank" class="card-title">GenMatter: Perceiving Physical Objects with Generative Matter Models</a>
+  <p class="card-summary">本文提出GenMatter生成模型，通过分层分组低层运动线索和高层外观特征为粒子及聚类，模拟人类视觉感知，实现对运动物体的检测与分割。该模型适用于随机点、纹理或自然RGB视频，在2D点运动图、伪装旋转物体等场景验证了有效性，为计算机视觉提供统一框架。</p>
+  <div class="hint">💡 HR关注：该研究涉及视觉感知与运动分割，虽非直接物流机器人技术，但可能启发未来机器人环境感知算法，可关注相关论文动态。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.CV updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22162" target="_blank" class="card-title">SAMIDARE: Advanced Tracking-by-Segmentation for Dense Scenarios</a>
+  <p class="card-summary">arXiv发布SAMIDARE框架，通过密度感知掩码重生成、选择性记忆更新和状态感知关联三大组件，增强SAM2MOT在密集场景下的多目标跟踪性能。在SportsMOT数据集上，验证集HOTA提升2.5，IDF1提升4.2，代码已开源。</p>
+  <div class="hint">💡 HR关注：该技术虽聚焦体育场景，但其密集场景下的目标跟踪与分割方法对物流机器人集群调度或视觉导航有间接参考价值。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.CV updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22164" target="_blank" class="card-title">Learning Reactive Human Motion Generation from Paired Interaction Data Using Transformer-Based Models</a>
+  <p class="card-summary">研究利用Transformer模型从拳击配对数据生成交互式人体运动，对比简单Transformer、iTransformer和Crossformer，发现简单Transformer可生成合理交互运动，引入人物ID嵌入可防止结构崩溃。</p>
+  <div class="hint">💡 HR关注：该研究属于高校科研范畴，与物流机器人直接相关性低，但交互运动生成技术未来可能应用于人机协作场景。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.CV updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22174" target="_blank" class="card-title">Unlocking Optical Prior: Spectrum-Guided Knowledge Transfer for SAR Generalized Category Discovery</a>
+  <p class="card-summary">本文提出MDC引导的跨模态先验迁移框架(MCPT)，通过频谱能量分布建模光学-SAR模态差异，利用自适应频率分词(AFT)和频率感知专家细化(FER)实现光学先验向SAR域迁移，在多个数据集上取得最优性能。</p>
+  <div class="hint">💡 HR关注：该研究涉及跨模态特征迁移技术，可能对多传感器融合的机器人感知系统有间接启发，但非直接相关。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.CV updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22183" target="_blank" class="card-title">EvFlow-GS: Event Enhanced Motion Deblurring with Optical Flow for 3D Gaussian Splatting</a>
+  <p class="card-summary">本文提出EvFlow-GS框架，利用事件相机和光流联合优化端到端可学习双积分、相机位姿和3D高斯泼溅，实现从运动模糊图像中重建清晰3D场景。实验证明其领先性能。</p>
+  
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.CV updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22190" target="_blank" class="card-title">From Global to Local: Rethinking CLIP Feature Aggregation for Person Re-Identification</a>
+  <p class="card-summary">论文提出SAGA-ReID方法，通过对齐CLIP文本嵌入空间中的锚向量来重构行人重识别特征，在遮挡和跨相机变化下表现优于全局池化，最高提升10.6% Rank-1准确率。</p>
+  <div class="hint">💡 HR关注：该技术属于计算机视觉领域，与物流机器人直接相关性较低，但可关注其视觉特征聚合方法对机器人感知的潜在启发。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.SY updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22077" target="_blank" class="card-title">Empirical Assessment of Time-Series Foundation Models For Power System Forecasting Applications</a>
+  <p class="card-summary">该论文评估了TimesFM、Chronos Bolt等时序基础模型在电力系统（ERCOT电网）负荷与可再生能源预测中的表现，涵盖零样本、微调、多变量处理等八项能力。结果显示基础模型在特定场景有优势，但传统方法仍具实用性。</p>
+  <div class="hint">💡 HR关注：该研究虽非直接针对物流机器人，但时序预测技术（如负荷/发电预测）与仓储机器人路径规划、能耗管理存在间接关联，可关注相关技术人才在能源优化场景的迁移能力。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.SY updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22107" target="_blank" class="card-title">A Hybrid Reinforcement and Self-Supervised Learning Aided Benders Decomposition Algorithm</a>
+  <p class="card-summary">提出混合强化与自监督学习框架加速广义Benders分解，图强化学习代理确定整数变量分配，KKT神经网络预测原始对偶解构建Benders割，在混合整数非线性规划案例中实现57.5%求解时间缩减。</p>
+  
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.SY updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22121" target="_blank" class="card-title">Characterizing pitch and roll torque coupling in insect-sized flapping-wing robots using a microfabricated gimbal</a>
+  <p class="card-summary">研究介绍了一种微加工万向节，用于精确测量180毫克扑翼飞行昆虫机器人的俯仰和滚转扭矩。结果显示俯仰和滚转扭矩之间耦合效应可忽略（交叉相关系数分别为-0.001和-0.085），推力偏差最大仅5.8%，验证了独立控制假设。</p>
+  <div class="hint">💡 HR关注：该研究涉及微型扑翼机器人的控制解耦验证，虽非直接物流机器人技术，但可为未来微型飞行器设计提供基础，对招聘有参考价值。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.SY updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22149" target="_blank" class="card-title">Sampling-Based Safety Filter with Probabilistic Restrictiveness Guarantee</a>
+  <p class="card-summary">本文提出一种基于采样的安全过滤器，利用Stein变分模型预测控制（SV-MPC）生成控制序列样本，评估任意标称控制输入的安全性，并在复杂非凸环境中提供概率性限制保证。通过单/多车避障任务验证有效性。</p>
+  
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.SY updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22315" target="_blank" class="card-title">Control of Multi-agent Systems under STL Specifications based on Prescribed Performance Observers</a>
+  <p class="card-summary">本文提出基于k跳预设性能状态观测器的多智能体系统分散控制方法，解决通信受限下满足信号时序逻辑规范的问题。通过估计误差边界重构鲁棒性度量，设计连续时间反馈控制律，保证有界扰动下规范满足。</p>
+  <div class="hint">💡 HR关注：该研究涉及多智能体协同控制与状态估计，与物流机器人集群调度技术相关，可关注相关算法人才。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.SY updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22327" target="_blank" class="card-title">Multi-robot obstacle-aware shepherding of non-cohesive target agents</a>
+  <p class="card-summary">该论文提出一种多机器人障碍感知牧羊策略，用于引导非凝聚目标体穿越障碍环境。每个牧羊者采用混合控制策略，结合目标导向与障碍切线机动。仿真和TurtleBot4机器人实验验证了该方法在杂乱环境中更高的目标围捕率。</p>
+  <div class="hint">💡 HR关注：该技术涉及多机器人协同避障与目标引导，与仓储物流机器人集群调度和障碍环境下的货物搬运场景有间接关联，可关注相关算法在复杂仓库环境中的应用潜力。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.SY updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22138" target="_blank" class="card-title">Global Convergence of Policy Gradient Methods for ReLU Controllers in Linear Quadratic Regulation</a>
+  <p class="card-summary">研究模型策略梯度在ReLU神经网络参数化LQR控制器中的收敛性。证明过参数化单隐层ReLU网络在随机初始化、足够宽度和小步长下，策略梯度稳定收敛到最优线性增益。</p>
+  <div class="hint">💡 HR关注：该研究属于理论优化领域，与物流机器人直接应用关联度低，但可关注其算法收敛性分析对机器人控制优化的潜在影响。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">cs.SY updates on arXiv.org</span>
+  </div>
+  <a href="https://arxiv.org/abs/2604.22624" target="_blank" class="card-title">Compositional Online Learning for Multi-Objective System Co-Design</a>
+  <p class="card-summary">本文提出一种面向多目标系统协同设计的组合在线学习框架，通过乐观评估器在单调协同设计中高效识别非支配权衡。实验在多机器人车队设计等场景中，相比均匀采样、贝叶斯优化等方法显著提升样本效率。</p>
+  <div class="hint">💡 HR关注：该研究涉及多机器人系统优化，可关注其算法在物流机器人调度与设计中的应用潜力。</div>
+</div>
+  </div>
+</div>
+<div class="category" style="--cat-color: #DC2626; --cat-bg: #FEF2F2; --cat-border: #FECACA;">
+  <div class="cat-header">
+    <span class="cat-icon">💰</span>
+    <h2 class="cat-name">💰 资本市场</h2>
+    <span class="cat-count">11 条</span>
+  </div>
+  <div class="cards-grid">
+    <div class="card">
+  <div class="card-header">
+    
+    <span class="source">钛媒体：引领未来商业与生活新知</span>
+  </div>
+  <a href="https://www.tmtpost.com/7965167.html" target="_blank" class="card-title">模型大战后，AI竞争的下半场在哪里？| Talk to The World @斯坦福</a>
+  <p class="card-summary">文章探讨大模型从实验室走向商业产品的关键，强调人格设计、行为对齐、系统指令和安全护栏等“最后一公里”优化的重要性，指出这是AI竞争下半场的核心。</p>
+  <div class="hint">💡 HR关注：空字符串</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">钛媒体：引领未来商业与生活新知</span>
+  </div>
+  <a href="https://www.tmtpost.com/7965155.html" target="_blank" class="card-title">中美新「三极联动」：全球AI创新的钱流向哪里、人去向何方？| 「Talk to The World」 @斯坦福</a>
+  <p class="card-summary">本文以灰狗、鸵鸟、兔子比喻中美新三国的AI创新生态，分析全球AI资本与人才流动趋势。美国跑得最快，中国以规模优势追赶，新加坡成为中美争夺的枢纽。</p>
+  <div class="hint">💡 HR关注：空字符串</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">钛媒体：引领未来商业与生活新知</span>
+  </div>
+  <a href="https://www.tmtpost.com/7969504.html" target="_blank" class="card-title">开庭前夕，微软和OpenAI分手了？</a>
+  <p class="card-summary">OpenAI更新与微软的合作关系，双方在开庭前夕调整合作条款，可能涉及技术授权或投资结构变化，影响AI行业格局。</p>
+  <div class="hint">💡 HR关注：此事件对仓储物流机器人行业直接影响有限，但可关注AI巨头合作变动对技术生态的潜在影响。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">钛媒体：引领未来商业与生活新知</span>
+  </div>
+  <a href="https://www.tmtpost.com/7969493.html" target="_blank" class="card-title">10小时测完DeepSeek-V4！北大团队终结工程师噩梦？深扒大模型评测的“千亿生意”</a>
+  <p class="card-summary">北大团队发布DeepSeek-V4评测报告，声称10小时完成全量测试，引发对AI评测效率与成本的讨论。大模型评测市场被视为千亿级生意，涉及自动化工具、基准测试等方向。</p>
+  <div class="hint">💡 HR关注：空字符串</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">爱范儿</span>
+  </div>
+  <a href="https://www.ifanr.com/1664127?utm_source=rss&utm_medium=rss&utm_campaign=" target="_blank" class="card-title">早报｜小米玄戒O1出货破百万，未来还将「上车」/OpenAI与微软「分手」/小红书发布首份AI治理主张</a>
+  <p class="card-summary">小米玄戒O1芯片出货破百万，未来将应用于汽车领域；OpenAI与微软关系变化；小红书发布首份AI治理主张。</p>
+  
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">Ars Technica - All content</span>
+  </div>
+  <a href="https://arstechnica.com/ai/2026/04/china-kills-metas-acquisition-of-manus-as-us-china-ai-rivalry-deepens/" target="_blank" class="card-title">China kills Meta’s acquisition of Manus as US-China AI rivalry deepens</a>
+  <p class="card-summary">中国阻止Meta收购AI初创公司Manus，反映中美AI竞争加剧。交易失败显示科技创始人难以切断与中国联系，凸显地缘政治对技术并购的影响。</p>
+  <div class="hint">💡 HR关注：地缘政治风险可能影响国际人才流动，需关注政策变化对跨境招聘的潜在影响。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">AI News &amp; Artificial Intelligence | TechCrunch</span>
+  </div>
+  <a href="https://techcrunch.com/2026/04/27/deepminds-david-silver-just-raised-1-1b-to-build-an-ai-that-learns-without-human-data/" target="_blank" class="card-title">DeepMind’s David Silver just raised $1.1B to build an AI that learns without human data</a>
+  <p class="card-summary">前DeepMind研究员David Silver创立的英国AI实验室Ineffable Intelligence，成立仅数月即获11亿美元融资，估值达51亿美元，旨在构建无需人类数据即可学习的AI。</p>
+  <div class="hint">💡 HR关注：该融资事件显示资本对前沿AI技术（如无监督学习）的强烈兴趣，可能影响机器人领域对类似技术人才的争夺。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">AI News &amp; Artificial Intelligence | TechCrunch</span>
+  </div>
+  <a href="https://techcrunch.com/2026/04/27/openai-could-be-making-a-phone-with-ai-agents-replacing-apps/" target="_blank" class="card-title">OpenAI could be making a phone with AI agents replacing apps</a>
+  <p class="card-summary">行业分析师郭明錤指出，OpenAI正与联发科、高通及立讯精密合作研发一款AI手机，其核心特点是AI代理将取代传统应用程序。这标志着AI硬件集成进入新阶段。</p>
+  <div class="hint">💡 HR关注：空字符串</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">量子位</span>
+  </div>
+  <a href="https://www.qbitai.com/2026/04/408409.html" target="_blank" class="card-title">Claude第一款AI桌宠硬件，深圳制造</a>
+  <p class="card-summary">Anthropic推出首款AI桌宠硬件，由深圳制造，体现深圳供应链在AI硬件领域的优势。</p>
+  <div class="hint">💡 HR关注：关注深圳硬件供应链趋势，但非直接相关物流机器人领域。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">量子位</span>
+  </div>
+  <a href="https://www.qbitai.com/2026/04/408394.html" target="_blank" class="card-title">让孩子画作活起来，用放大镜识万物，给台灯装灵魂……京东JoyInside打造AI硬件时代“超级基础设施”</a>
+  <p class="card-summary">京东推出JoyInside平台，旨在成为AI硬件时代的“超级基础设施”，支持AI新物种如儿童画作互动、放大镜识别万物、智能台灯等产品开发，推动AI硬件落地消费场景。</p>
+  <div class="hint">💡 HR关注：京东JoyInside平台可能影响消费级AI硬件市场，但非直接竞品动态，可关注其技术生态对物流机器人交互设计的潜在启发。</div>
+</div><div class="card">
+  <div class="card-header">
+    
+    <span class="source">36氪</span>
+  </div>
+  <a href="https://36kr.com/p/3783828639571203?f=rss" target="_blank" class="card-title">前苹果工程师做了款体感游戏机，销量拳打Xbox，营收数亿美元</a>
+  <p class="card-summary">前苹果工程师李景辉创立的Nex推出体感游戏机Nex Playground，2025年黑五市占率14%超越Xbox，预计年营收超1.5亿美元。产品面向家庭亲子互动，无需手柄，获NBA授权，总融资2500万美元。</p>
+  <div class="hint">💡 HR关注：该产品非物流机器人领域，但展示了AI体感技术商业化潜力，可关注其技术团队背景。</div>
+</div>
+  </div>
+</div>
+
+  <div class="report-footer">
+    由 AI 自动采集生成 · 极智嘉招聘团队内部参考 · 4月28日
+  </div>
+
+</div>
+</body>
+</html>
